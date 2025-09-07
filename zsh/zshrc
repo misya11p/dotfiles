@@ -25,6 +25,7 @@ alias ls="eza -F --group-directories-first --icons -s=extension --color=always"
 alias l="ls"
 alias la="ls -a"
 alias ll="la -l --git --no-user --time-style=long-iso"
+alias llf="ll --no-permissions --no-time --no-filesize"
 alias cp="cp -r"
 alias cat="bat"
 alias rm="trash"
@@ -47,3 +48,8 @@ alias gl="ghq list"
 alias path="echo $PATH | tr : '\n'"
 alias wtr='() {curl ja.wttr.in/"${1:-Tokyo}"}'
 alias kusa='() {curl "https://github-contributions-api.deno.dev/{$1}.term"}'
+
+# import modules
+for file in "$DOTFILES_ROOT"/modules/*; do
+  [ -f "$file" ] && source "$file"
+done
