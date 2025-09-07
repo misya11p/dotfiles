@@ -1,0 +1,49 @@
+fpath+=("$(brew --prefix)/share/zsh/site-functions") # pure prompt
+eval "$(zoxide init zsh)" # zoxide
+
+zinit ice wait'0'; zinit light zsh-users/zsh-completions # コマンド補完
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 小文字でも大文字にマッチさせる
+zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
+
+zinit light zsh-users/zsh-syntax-highlighting # シンタックスハイライト
+zinit light zsh-users/zsh-autosuggestions # 入力補完
+
+HISTFILE=$ZDOTDIR/.zsh_history # コマンド履歴
+HISTSIZE=100000
+SAVEHIST=1000000
+setopt HIST_IGNORE_DUPS # 同じコマンドが続いた場合履歴に残さない
+setopt inc_append_history # 他のzshと履歴を共有
+setopt share_history
+setopt AUTO_CD # パスを直接入力してもcdする
+setopt AUTO_PARAM_KEYS # 環境変数を補完
+
+
+# alias
+alias cd="z"
+alias ls="eza -F --group-directories-first --icons -s=extension --color=always"
+alias l="ls"
+alias la="ls -a"
+alias ll="la -l --git --no-user --time-style=long-iso"
+alias cp="cp -r"
+alias cat="bat"
+alias rm="trash"
+alias du="gdu-go"
+alias ..="cd ../"
+alias v="nvim"
+alias vz="v $HOME/.zshrc"
+alias sz="source $HOME/.zshrc"
+alias mdc='(){mkdir $1 && cd $1}'
+alias du="dua"
+alias dui="dua interactive"
+alias c="code ."
+alias o="open ."
+
+## git
+alias g="git"
+alias gl="ghq list"
+
+## others
+alias path="echo $PATH | tr : '\n'"
+alias wtr='() {curl ja.wttr.in/"${1:-Tokyo}"}'
+alias kusa='() {curl "https://github-contributions-api.deno.dev/{$1}.term"}'
