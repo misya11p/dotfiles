@@ -1,0 +1,22 @@
+#!/bin/bash
+
+ghq-get() {
+  if [[ $# -lt 1 ]]; then
+    echo "Usage: gg [username/repo | repo] [options...]"
+    return 1
+  fi
+
+  local target="$1"
+  shift
+
+  local repo
+  if [[ "$target" == */* ]]; then
+    repo="$target"
+  else
+    repo="git@github.com:misya11p/${target}.git"
+  fi
+
+  ghq get "$repo" "$@"
+}
+
+alias gg="ghq-get"

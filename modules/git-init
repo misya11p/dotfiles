@@ -1,0 +1,31 @@
+#!/bin/bash
+
+git-init() {
+  if [[ $# -lt 1 ]]; then
+    echo "Usage: gi <reponame> [--public]"
+    exit 1
+  fi
+
+  reponame=$1
+  shift
+
+  visibility="--private"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --public)
+        visibility=""
+        ;;
+      *)
+        echo "Unknown option: $1"
+        usage
+        ;;
+    esac
+    shift
+  done
+
+  gh repo create "$reponame" $visibility
+  ghq-get "$reponame"
+}
+
+alias gi="git-init"
