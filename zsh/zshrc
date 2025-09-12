@@ -1,11 +1,13 @@
-fpath+=("$(brew --prefix)/share/zsh/site-functions") # pure prompt
+autoload -U promptinit; promptinit # pure prompt
+prompt pure
+
 eval "$(zoxide init zsh)" # zoxide
 
-zinit ice wait'0'; zinit light zsh-users/zsh-completions # コマンド補完
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 小文字でも大文字にマッチさせる
 zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
 
+zinit light zsh-users/zsh-completions # コマンド補完
 zinit light zsh-users/zsh-syntax-highlighting # シンタックスハイライト
 zinit light zsh-users/zsh-autosuggestions # 入力補完
 
@@ -18,6 +20,8 @@ setopt share_history
 setopt AUTO_CD # パスを直接入力してもcdする
 setopt AUTO_PARAM_KEYS # 環境変数を補完
 
+# zinit light zdharma/history-search-multi-word # 履歴検索
+# bindkey '^R' history-incremental-search-backward # Ctrl+Hで履歴検索
 
 # alias
 alias cd="z"
