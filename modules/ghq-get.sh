@@ -23,7 +23,7 @@ ghq-get() {
   if [[ -n "$repo_path" ]]; then
     read -r "answer?cd to ${repo_path}? (Y/n) "
     if [[ -z "$answer" || "$answer" =~ ^[Yy]$ ]]; then
-      cd "$repo_path"
+      \cd "$repo_path"
     fi
   fi
 }

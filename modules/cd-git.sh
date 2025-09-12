@@ -11,6 +11,6 @@ cd-git() {
       --bind 'change:reload(ghq list --full-path {q})' \
       --preview 'bat -p --color=always --line-range :80 $(ghq root)/{}/README.*'
   )
-  z "$repo_path"
+  \cd "$repo_path"
 }
 alias gd="cd-git"
