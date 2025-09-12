@@ -1,5 +1,4 @@
 # Environment variables
-export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="`npm bin -g`:$PATH"
 export PATH="$HOME/.local/bin:$PATH" # uv
@@ -13,12 +12,14 @@ eval "$(zoxide init zsh)" # zoxide
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 小文字でも大文字にマッチさせる
 zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 
 zinit light zsh-users/zsh-completions # コマンド補完
 zinit light zsh-users/zsh-syntax-highlighting # シンタックスハイライト
 zinit light zsh-users/zsh-autosuggestions # 入力補完
 
-HISTFILE=$ZDOTDIR/.zsh_history # コマンド履歴
+export HISTFILE="$XDG_STATE_HOME"/zsh/history
 HISTSIZE=100000
 SAVEHIST=1000000
 setopt HIST_IGNORE_DUPS # 同じコマンドが続いた場合履歴に残さない
