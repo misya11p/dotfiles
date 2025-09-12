@@ -2,7 +2,7 @@
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="`npm bin -g`:$PATH"
-export PATH="/Users/komiya/.local/bin:$PATH" # uv
+export PATH="$HOME/.local/bin:$PATH" # uv
 
 # zsh settings
 autoload -U promptinit; promptinit # pure prompt
