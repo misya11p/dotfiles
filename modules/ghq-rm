@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ghq-rm() {
+    set -e
+
+    repo=$(ghq list | fzf)
+    [ -z "$repo" ] && return 0
+
+    repo_path=$(ghq root)/$repo
+    rm "$repo_path"
+    echo "Removed $repo_path"
+}
+
+alias gr='ghq-rm'
