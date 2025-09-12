@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 git-init() {
   if [[ $# -lt 1 ]]; then
