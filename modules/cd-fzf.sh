@@ -1,8 +1,7 @@
 #!/bin/zsh
 
 cd-fzf() {
-  local dir
-  dir=$(
+  local dir=$(
     zoxide query -l |
     sed "s|^$HOME|~|" |
     fzf \
@@ -25,6 +24,7 @@ cd-fzf() {
           "${HOME}$(echo {} | sed "s|^~||")"
       '
   )
+
   dir="${dir/#\~/$HOME}"
   if [[ -n "$dir" ]]; then
     z "$dir"

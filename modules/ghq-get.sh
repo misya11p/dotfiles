@@ -1,12 +1,12 @@
 #!/bin/zsh
 
 ghq-get() {
+  local target="$1"
   if [[ $# -lt 1 ]]; then
     echo "Usage: gg [username/repo | repo] [options...]"
     return 1
   fi
 
-  local target="$1"
   shift
 
   local repo_uri
@@ -17,8 +17,7 @@ ghq-get() {
   fi
 
   ghq get "$repo_uri" "$@"
-  local repo_path
-  repo_path=$(ghq list -p -e "$repo_uri")
+  local repo_path=$(ghq list -p -e "$repo_uri")
 
   if [[ -n "$repo_path" ]]; then
     read -r "answer?cd to ${repo_path}? (Y/n) "

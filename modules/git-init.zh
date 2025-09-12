@@ -6,7 +6,7 @@ git-init() {
     exit 1
   fi
 
-  repo_name=$1
+  local repo=$1
   shift
 
   visibility="--private"
@@ -24,8 +24,8 @@ git-init() {
     shift
   done
 
-  gh repo create "$repo_name" $visibility
-  ghq-get "$repo_name"
+  gh repo create "$repo" $visibility
+  ghq-get "$repo"
 }
 
 alias gi="git-init"
