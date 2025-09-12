@@ -17,18 +17,15 @@ ghq-get() {
   fi
 
   ghq get "$repo" "$@"
-  if ghq get "$repo" "$@"; then
-    local repo_path
-    repo_path=$(ghq list -p -e "$repo")
+  local repo_path
+  repo_path=$(ghq list -p -e "$repo")
 
-    if [[ -n "$repo_path" ]]; then
-      read -r "answer?cd to ${repo_path}? (Y/n) "
-      if [[ -z "$answer" || "$answer" =~ ^[Yy]$ ]]; then
-        cd "$repo_path"
-      fi
+  if [[ -n "$repo_path" ]]; then
+    read -r "answer?cd to ${repo_path}? (Y/n) "
+    if [[ -z "$answer" || "$answer" =~ ^[Yy]$ ]]; then
+      cd "$repo_path"
     fi
   fi
-
 }
 
 alias gg="ghq-get"
