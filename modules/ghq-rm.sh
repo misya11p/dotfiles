@@ -6,7 +6,7 @@ ghq-rm() {
   repo=$(
     ghq list |
     fzf \
-      --height 60% \
+      --height 40% \
       --reverse \
       --no-sort \
       --bind 'change:reload(ghq list --full-path {q})' \
