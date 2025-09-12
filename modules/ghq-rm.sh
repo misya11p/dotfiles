@@ -1,8 +1,6 @@
 #!/bin/zsh
 
 ghq-rm() {
-  set -e
-
   repo=$(
     ghq list |
     fzf \
