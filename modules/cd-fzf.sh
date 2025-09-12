@@ -26,7 +26,9 @@ cd-fzf() {
       '
   )
   dir="${dir/#\~/$HOME}"
-  z "$dir"
+  if [[ -n "$dir" ]]; then
+    z "$dir"
+  fi
 }
 
 alias fd=cd-fzf
