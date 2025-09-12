@@ -1,3 +1,10 @@
+# Environment variables
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="`npm bin -g`:$PATH"
+export PATH="/Users/komiya/.local/bin:$PATH" # uv
+
+# zsh settings
 autoload -U promptinit; promptinit # pure prompt
 prompt pure
 
@@ -29,7 +36,7 @@ alias ls="eza -F --group-directories-first --icons -s=extension --color=always"
 alias l="ls"
 alias la="ls -a"
 alias ll="la -l --git --no-user --time-style=long-iso"
-alias llf="ll --no-permissions --no-time --no-filesize"
+alias llf="ls -al --no-user --no-permissions --no-time --no-filesize"
 alias cp="cp -r"
 alias cat="bat"
 alias rm="trash"
