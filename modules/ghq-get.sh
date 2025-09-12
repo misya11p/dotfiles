@@ -9,16 +9,16 @@ ghq-get() {
   local target="$1"
   shift
 
-  local repo
+  local repo_uri
   if [[ "$target" == */* ]]; then
-    repo="$target"
+    repo_uri="$target"
   else
-    repo="git@github.com:misya11p/${target}.git"
+    repo_uri="git@github.com:misya11p/${target}.git"
   fi
 
-  ghq get "$repo" "$@"
+  ghq get "$repo_uri" "$@"
   local repo_path
-  repo_path=$(ghq list -p -e "$repo")
+  repo_path=$(ghq list -p -e "$repo_uri")
 
   if [[ -n "$repo_path" ]]; then
     read -r "answer?cd to ${repo_path}? (Y/n) "
