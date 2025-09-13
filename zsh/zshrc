@@ -32,6 +32,7 @@ setopt AUTO_PARAM_KEYS # 環境変数を補完
 # bindkey '^R' history-incremental-search-backward # Ctrl+Hで履歴検索
 
 # alias
+## replace commands
 alias cd="z"
 alias ls="eza -F --group-directories-first --icons -s=extension --color=always"
 alias l="ls"
@@ -41,15 +42,16 @@ alias llf="ls -al --no-user --no-permissions --no-time --no-filesize"
 alias cp="cp -r"
 alias cat="bat"
 alias rm="trash"
-alias du="gdu-go"
+alias du="dua"
+alias dui="dua interactive"
+
+## shortcuts
 alias ..="cd ../"
 alias v="nvim"
 alias vz="v $ZDOTDIR/.zshrc"
 alias vze="v $ZDOTDIR/.zshenv"
 alias sz="source $ZDOTDIR/.zshrc"
 alias mdc='(){mkdir $1 && cd $1}'
-alias du="dua"
-alias dui="dua interactive"
 alias c="code ."
 alias o="open ."
 
