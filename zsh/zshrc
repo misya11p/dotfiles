@@ -1,7 +1,7 @@
 # Environment variables
-# export PATH="$VOLTA_HOME/bin:$PATH"
-# export PATH="`npm bin -g`:$PATH"
-# export PATH="$HOME/.local/bin:$PATH" # uv
+export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="`npm bin -g`:$PATH"
+export PATH="$HOME/.local/bin:$PATH" # uv
 
 # zsh settings
 autoload -U promptinit; promptinit # pure prompt
