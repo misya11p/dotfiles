@@ -69,6 +69,9 @@ alias wtr='() {curl ja.wttr.in/"${1:-Tokyo}"}'
 alias kusa='() {curl "https://github-contributions-api.deno.dev/{$1}.term"}'
 
 # import modules
-for file in "$DOTFILES_ROOT"/modules/*; do
+for file in "$DOTFILES_ROOT/modules/*"; do
   [ -f "$file" ] && source "$file"
 done
+
+# Enable the custom application commands
+export PATH="$DOTFILES_ROOT/applications:$PATH"
