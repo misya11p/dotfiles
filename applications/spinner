@@ -1,0 +1,28 @@
+#!/bin/bash
+
+show_spinner() {
+  local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+  local interval=0.08
+  local message="${1:-Processing...}"
+  trap 'tput cnorm; echo -ne "\r\033[K"; exit' INT TERM
+  tput civis
+  while true; do
+    for frame in "${frames[@]}"; do
+      echo -ne "\r\033[K${frame} ${message}"
+      sleep "$interval"
+    done
+  done
+}
+
+
+show_spinner "$@" &
+spinner_pid=$!
+cat > /dev/null
+
+kill "$spinner_pid"
+wait "$spinner_pid" 2>/dev/null
+tput cnorm
+
+echo -e "\r\033[K${2:-✔ Done.}"
+exit 0
+
