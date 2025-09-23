@@ -1,0 +1,37 @@
+#!/bin/bash
+# totex: Extract LaTeX code from an image using a vision-language model
+# Usage: totex <image_path> [additional_instructions]
+
+VL_MODEL="qwen2.5vl:3b"
+PATH_INPUT=$(realpath "$1")
+INSTRUCTION='
+- Reconstruct the original mathematical code from this image
+- Enclose the mathematical content in `\begin{align}...\end{align}` and provide the output; no other text is required
+- `\boldsymbol` may be written as `\bm`
+'
+
+is_valid_image_path() {
+  local path="$1"
+  [ -f "$path" ] || return 1
+  case "$path" in
+    *.png|*.jpg|*.jpeg) return 0;;
+    *) return 1;;
+  esac
+}
+
+if ! is_valid_image_path "$PATH_INPUT"; then
+  echo "Error: Invalid argument. Please provide a path to a valid image file." >&2
+  exit 1
+fi
+
+if [ $# -gt 1 ]; then
+  for instruction in "$@"; do
+    if [ "$instruction" != "$1" ]; then
+      INSTRUCTION="${INSTRUCTION}- $instruction\n"
+    fi
+  done
+fi
+
+llm -m "$VL_MODEL" -a "$PATH_INPUT" -- "$INSTRUCTION" | pbcopy | spinner "Extracting original tex code..."
+echo "Output copied to clipboard."
+
