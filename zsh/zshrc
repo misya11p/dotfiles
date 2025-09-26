@@ -65,7 +65,7 @@ alias ur="uv run"
 alias ui="uv pip install"
 
 # import modules
-for file in "$DOTFILES_ROOT/modules/*"; do
+for file in "$DOTFILES_ROOT"/modules/*; do
   [ -f "$file" ] && source "$file"
 done
 
