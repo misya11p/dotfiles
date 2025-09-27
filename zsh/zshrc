@@ -63,6 +63,7 @@ alias gs="git switch"
 ## uv
 alias ur="uv run"
 alias ui="uv pip install"
+alias ua="uv add"
 
 # import modules
 for file in "$DOTFILES_ROOT"/modules/*; do
