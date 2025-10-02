@@ -14,6 +14,7 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 小文字でも大文字にマッチさせる
 zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+zstyle ':completion:*' expand 'yes'
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 
 zinit light zsh-users/zsh-completions # コマンド補完
