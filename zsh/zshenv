@@ -31,3 +31,6 @@ export WINEPREFIX="$XDG_DATA_HOME"/wine
 
 ## npm
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+
+## matplotlib
+export MPLCONFIGDIR="$XDG_CONFIG_HOME/matplotlib"
