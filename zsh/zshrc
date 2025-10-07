@@ -20,6 +20,8 @@ compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 zinit light zsh-users/zsh-completions # コマンド補完
 zinit light zsh-users/zsh-syntax-highlighting # シンタックスハイライト
 zinit light zsh-users/zsh-autosuggestions # 入力補完
+zinit light zdharma/history-search-multi-word # 履歴検索
+bindkey '^R' history-incremental-search-backward # Ctrl+Rで履歴検索
 
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 HISTSIZE=100000
@@ -29,9 +31,6 @@ setopt inc_append_history # 他のzshと履歴を共有
 setopt share_history
 setopt AUTO_CD # パスを直接入力してもcdする
 setopt AUTO_PARAM_KEYS # 環境変数を補完
-
-# zinit light zdharma/history-search-multi-word # 履歴検索
-# bindkey '^R' history-incremental-search-backward # Ctrl+Hで履歴検索
 
 # alias
 ## replace commands

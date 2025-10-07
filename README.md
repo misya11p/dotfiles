@@ -40,3 +40,25 @@ brew install ghq
 ```sh
 curl -fsSL https://raw.githubusercontent.com/misya11p/dotfiles/main/scripts/clone.sh | bash
 ```
+
+## install & setup
+
+本リポジトリに移動
+
+```sh
+cd $HOME/.repo/github.com/misya11p/dotfiles
+```
+
+次のコマンドを実行。環境変数などの設定を行う。
+
+```sh
+sh scripts/setup.sh
+source $HOME/.config/zsh/.zshenv
+```
+
+次のコマンドを実行。パッケージインストール。
+
+```sh
+sh scripts/install.sh
+source $HOME/.config/zsh/.zshrc
+```
