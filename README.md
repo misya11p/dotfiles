@@ -25,14 +25,6 @@ chsh -s $(which zsh)
 
 Linuxの場合は[こちら](https://docs.brew.sh/Homebrew-on-Linux)を参照
 
-### [ghq](https://github.com/x-motemen/ghq)のインストール
-
-次のコマンドを実行
-
-```sh
-brew install ghq
-```
-
 ### dotfilesのクローン
 
 次のコマンドを実行

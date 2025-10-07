@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! command -v ghq >/dev/null 2>&1; then
+    echo "Installing ghq"
+    brew install ghq
+fi
+
 echo "Cloning dotfiles repository."
 
 cd
