@@ -34,3 +34,6 @@ export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 
 ## matplotlib
 export MPLCONFIGDIR="$XDG_CONFIG_HOME/matplotlib"
+
+## python
+export PYTHONSTARTUP="$HOME"/python/pythonrc
