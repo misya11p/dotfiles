@@ -4,7 +4,7 @@
 
 ## 準備
 
-### 1. zshのインストール
+### zshのインストール
 
 - macOSの場合はデフォルトで入っているので不要
 - Linuxの場合は以下のコマンドでインストール
@@ -15,7 +15,7 @@ sudo apt install zsh
 chsh -s $(which zsh)
 ```
 
-### 2. [Homebrew](https://brew.sh)のインストール
+### [Homebrew](https://brew.sh)のインストール
 
 次のコマンドを実行し、指示に従ってパスを通す
 
@@ -25,7 +25,7 @@ chsh -s $(which zsh)
 
 Linuxの場合は[こちら](https://docs.brew.sh/Homebrew-on-Linux)を参照
 
-### 3. [ghq](https://github.com/x-motemen/ghq)のインストール
+### [ghq](https://github.com/x-motemen/ghq)のインストール
 
 次のコマンドを実行
 
@@ -33,7 +33,7 @@ Linuxの場合は[こちら](https://docs.brew.sh/Homebrew-on-Linux)を参照
 brew install ghq
 ```
 
-### 4. dotfilesのクローン
+### dotfilesのクローン
 
 次のコマンドを実行
 
