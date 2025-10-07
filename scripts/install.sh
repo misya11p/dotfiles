@@ -1,16 +1,28 @@
 # Install necessary packages via Homebrew
-## cli tools
+
+## commons
 brew install bat
 brew install eza
-brew install trash
 brew install dua-cli
 brew install fzf
 brew install fastfetch
-brew install font-0xproto-nerd-font
 brew install zoxide
 brew install pure
-
-## dev tools
+bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 brew install neovim
 brew install uv
 brew install volta
+brew install gh
+
+## macOS
+if [[ "$(uname)" == "Darwin" ]]; then
+  brew install macmon
+  brew install trash
+  brew install font-0xproto-nerd-font
+
+## Linux
+elif [[ "$(uname)" == "Linux" ]]; then
+  brew install trash-cli
+fi
+
+
