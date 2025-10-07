@@ -12,6 +12,7 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 brew install neovim
 brew install uv
 brew install volta
+VOLTA_HOME="$XDG_DATA_HOME"/volta volta install node
 brew install gh
 
 ## macOS
