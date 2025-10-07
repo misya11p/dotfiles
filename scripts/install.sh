@@ -1,7 +1,7 @@
 # Install necessary packages via Homebrew
 ## cli tools
 brew install bat
-brew install exa
+brew install eza
 brew install trash
 brew install dua-cli
 brew install fzf
