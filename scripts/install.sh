@@ -6,7 +6,6 @@ brew install trash
 brew install dua-cli
 brew install fzf
 brew install fastfetch
-brew install macmon
 brew install font-0xproto-nerd-font
 brew install zoxide
 brew install pure
