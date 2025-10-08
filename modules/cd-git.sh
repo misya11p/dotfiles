@@ -8,7 +8,7 @@ cd-git() {
       local p="$root/$r"
       local s=$(zoxide query -ls "$p" 2>/dev/null | awk '{print $1}')
       printf "%s\t%s\n" "${s:-0}" "$r"
-    done | sort -rn -k1,1 | awk -F'\t' '{print $2}' | \
+    done | sort -rn -k1,1 | awk -F'\t' '$2 {print $2}' | \
     sed 's|^github\.com/||' | \
     fzf \
       --height 65% \
