@@ -1,26 +1,24 @@
 #!/bin/zsh
 
 cd-git() {
-  local root repo
-  root="$(ghq root)"
-
-  repo=$(
-    ghq list | \
-    while IFS= read -r r; do
-      p="$root/$r"
-      # zoxide `query -ls <path>` prints lines like "<score>\t<path>"
-      s=$(zoxide query -ls "$p" 2>/dev/null | awk '{print $1}')
-      printf "%s\t%s\n" "${s:-0}" "$r"
-    done | sort -rn -k1,1 | cut -f2- | \
+  local repo=$(
+    ghq list |
+    while read -r line; do
+      local full_path="$(ghq root)/$line"
+      local score=$(zoxide query -l "$full_path" 2>/dev/null | head -n1 | awk '{print $1}')
+      echo "${score:-0} $line"
+    done |
+    sort -rn |
+    cut -d' ' -f2- |
     fzf \
       --height 40% \
       --reverse \
-      --no-sort \
-      --preview "bat -p --color=always --theme=OneHalfLight --line-range :80 $root/{}/README.md"
+      --bind 'change:reload(ghq list {q})' \
+      --preview 'bat -p --color=always --theme=OneHalfLight --line-range :80 $(ghq root)/{}/README.md'
   )
 
   if [[ -n "$repo" ]]; then
-    \cd "$root/$repo"
+    \cd "$(ghq root)/$repo"
   fi
 }
 
