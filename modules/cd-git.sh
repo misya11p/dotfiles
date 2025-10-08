@@ -11,10 +11,10 @@ cd-git() {
     sort -rn |
     cut -d' ' -f2- |
     fzf \
-      --height 40% \
+      --height 60% \
       --reverse \
       --bind 'change:reload(ghq list {q})' \
-      --preview 'bat -p --color=always --theme=OneHalfLight --line-range :80 $(ghq root)/{}/README.md'
+      --preview 'rich --max-width 45 $(ghq root)/{}/README.md'
   )
 
   if [[ -n "$repo" ]]; then
