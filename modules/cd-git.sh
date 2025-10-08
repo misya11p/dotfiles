@@ -9,15 +9,16 @@ cd-git() {
       local s=$(zoxide query -ls "$p" 2>/dev/null | awk '{print $1}')
       printf "%s\t%s\n" "${s:-0}" "$r"
     done | sort -rn -k1,1 | awk -F'\t' '{print $2}' | \
+    sed 's|^github\.com/||' | \
     fzf \
-      --height 40% \
+      --height 65% \
       --reverse \
       --no-sort \
-      --preview 'rich --max-width 45 $(ghq root)/{}/README.md'
+      --preview 'rich --max-width 45 $(ghq root)/github.com/{}/README.md'
   )
 
   if [[ -n "$repo" ]]; then
-    \cd "$root/$repo"
+    \cd "$root/github.com/$repo"
   fi
 }
 
