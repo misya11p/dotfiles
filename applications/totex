@@ -1,13 +1,24 @@
 #!/bin/bash
-# totex: Extract LaTeX code from an image using a vision-language model
-# Usage: totex <image_path> [additional_instructions]
+# ocr: Perform OCR on an image using a vision-language model
+# Usage: ocr [-l] <image_path> [additional_instructions]
+#   -l : use lightweight model (3b instead of 7b)
 
-VL_MODEL="qwen2.5vl:3b"
+VL_MODEL="qwen2.5vl:7b"
+
+if [ "$1" = "-l" ]; then
+  VL_MODEL="qwen2.5vl:3b"
+  shift
+fi
+
 PATH_INPUT=$(realpath "$1")
+
 INSTRUCTION='
-- Reconstruct the original mathematical code from this image
-- Enclose the mathematical content in `\begin{align}...\end{align}` and provide the output; no other text is required
-- `\boldsymbol` may be written as `\bm`
+- Perform OCR on this image and extract the textual content
+- If Markdown-like styling (e.g., headers, lists, emphasis) is detected, output in proper Markdown format. Do not use code blocks (```).
+- If TeX mathematical expressions appear, reconstruct and output them as TeX code
+  - Enclose the mathematical content in \begin{align}...\end{align} and provide the output; no other text is required
+  - \boldsymbol may be written as \bm
+- For other structured content (tables, code blocks, etc.), infer a suitable format and output accordingly
 '
 
 is_valid_image_path() {
@@ -25,13 +36,11 @@ if ! is_valid_image_path "$PATH_INPUT"; then
 fi
 
 if [ $# -gt 1 ]; then
+  shift
   for instruction in "$@"; do
-    if [ "$instruction" != "$1" ]; then
-      INSTRUCTION="${INSTRUCTION}- $instruction\n"
-    fi
+    INSTRUCTION="${INSTRUCTION}- $instruction\n"
   done
 fi
 
-llm -m "$VL_MODEL" -a "$PATH_INPUT" -- "$INSTRUCTION" | pbcopy | spinner "Extracting original tex code..."
+llm -m "$VL_MODEL" -a "$PATH_INPUT" -- "$INSTRUCTION" | pbcopy | spinner "Processing OCR..."
 echo "Output copied to clipboard."
-
