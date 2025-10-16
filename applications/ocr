@@ -12,14 +12,14 @@ fi
 
 PATH_INPUT=$(realpath "$1")
 
-INSTRUCTION='
+read -r -d '' INSTRUCTION <<'EOF'
 - Perform OCR on this image and extract the textual content
 - If Markdown-like styling (e.g., headers, lists, emphasis) is detected, output in proper Markdown format. Also, don't put it in code blocks (```).
 - If TeX mathematical expressions appear, reconstruct and output them as TeX code
   - Enclose the mathematical content in \begin{align}...\end{align} and provide the output; no other text is required
   - \boldsymbol may be written as \bm
 - For other structured content (tables, code blocks, etc.), infer a suitable format and output accordingly
-'
+EOF
 
 is_valid_image_path() {
   local path="$1"
