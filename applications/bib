@@ -1,0 +1,72 @@
+#!/bin/bash
+# Written by Claude
+
+# 使用方法: bibtex-convert [format]
+# format: mla, apa, chicago, ieee など (デフォルト: mla)
+
+FORMAT="${1:-mla}"
+
+# クリップボードからBibTeXを取得
+if command -v xclip &> /dev/null; then
+    # Linux (X11)
+    BIBTEX=$(xclip -selection clipboard -o)
+    CLIP_CMD="xclip -selection clipboard"
+elif command -v pbpaste &> /dev/null; then
+    # macOS
+    BIBTEX=$(pbpaste)
+    CLIP_CMD="pbcopy"
+elif command -v powershell.exe &> /dev/null; then
+    # WSL
+    BIBTEX=$(powershell.exe -command "Get-Clipboard" | tr -d '\r')
+    CLIP_CMD="clip.exe"
+else
+    echo "エラー: クリップボードツールが見つかりません (xclip, pbpaste, powershell)" >&2
+    exit 1
+fi
+
+# pandocの確認
+if ! command -v pandoc &> /dev/null; then
+    echo "エラー: pandocがインストールされていません" >&2
+    echo "インストール: sudo apt install pandoc (Ubuntu/Debian)" >&2
+    echo "            brew install pandoc (macOS)" >&2
+    exit 1
+fi
+
+# 一時ファイルの作成
+TEMP_BIB=$(mktemp /tmp/bibtex.XXXXXX.bib)
+TEMP_MD=$(mktemp /tmp/bibtex.XXXXXX.md)
+
+# BibTeXを一時ファイルに保存
+echo "$BIBTEX" > "$TEMP_BIB"
+
+# pandocで変換 (citeproc使用)
+if pandoc --citeproc --bibliography="$TEMP_BIB" --csl="https://www.zotero.org/styles/$FORMAT" -t plain <<EOF 2>/dev/null > "$TEMP_MD"
+---
+nocite: '@*'
+---
+EOF
+then
+    # 変換結果をクリップボードにコピー
+    cat "$TEMP_MD" | $CLIP_CMD
+    echo "$FORMAT 形式に変換してクリップボードにコピーしました"
+else
+    # CSLスタイルのダウンロードが必要な場合の代替方法
+    pandoc --citeproc --bibliography="$TEMP_BIB" --csl=<(curl -sL "https://www.zotero.org/styles/$FORMAT") -t plain <<EOF 2>/dev/null > "$TEMP_MD"
+---
+nocite: '@*'
+---
+EOF
+
+    if [ $? -eq 0 ]; then
+        cat "$TEMP_MD" | $CLIP_CMD
+        echo "$FORMAT 形式に変換してクリップボードにコピーしました"
+    else
+        echo "エラー: 変換に失敗しました" >&2
+        echo "対応形式: mla, apa, chicago, ieee など" >&2
+        rm -f "$TEMP_BIB" "$TEMP_MD"
+        exit 1
+    fi
+fi
+
+# 一時ファイルの削除
+rm -f "$TEMP_BIB" "$TEMP_MD"
