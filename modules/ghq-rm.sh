@@ -13,9 +13,8 @@ ghq-rm() {
   )
 
   if [[ -n "$repo" ]]; then
-    local repo_path=$(ghq root)/$repo
-    trash "$repo_path"
-    echo "Removed $repo_path"
+    trash "$repo"
+    echo "Removed $repo"
   fi
 }
 
