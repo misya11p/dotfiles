@@ -1,12 +1,12 @@
 #!/bin/bash
 # ocr: Perform OCR on an image using a vision-language model
 # Usage: ocr [-l] <image_path> [additional_instructions]
-#   -l : use lightweight model (3b instead of 7b)
+#   -l : use larger model (8B parameters)
 
-VL_MODEL="qwen2.5vl:7b"
+VL_MODEL="qwen3-vl:2b-instruct-q8_0"
 
 if [ "$1" = "-l" ]; then
-  VL_MODEL="qwen2.5vl:3b"
+  VL_MODEL="qwen3-vl:8b-instruct-q8_0"
   shift
 fi
 
