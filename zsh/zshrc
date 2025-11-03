@@ -65,6 +65,9 @@ alias ur="uv run"
 alias ui="uv pip install"
 alias ua="uv add"
 
+## my apps
+alias llm-webui="$GIT_ROOT/llm-webui/run.sh"
+
 # import modules
 for file in "$DOTFILES_ROOT"/modules/*; do
   [ -f "$file" ] && source "$file"
