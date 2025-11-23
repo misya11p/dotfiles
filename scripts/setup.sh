@@ -25,12 +25,6 @@ echo "source $DOTFILES_ROOT/zsh/zshrc" >> $HOME/.config/zsh/.zshrc
 rm $HOME/.zshenv
 rm $HOME/.zshrc
 
-if [ -f /etc/zshenv ]; then
-    echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee -a /etc/zshenv > /dev/null
-elif [ -f /etc/zsh/zshenv ]; then
-    echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee -a /etc/zsh/zshenv > /dev/null
-else
-    echo "Could not find /etc/zshenv or /etc/zsh/zshenv. Please set ZDOTDIR manually."
-fi
+echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee -a /etc/zshenv > /dev/null
 
 echo "Completed setting up zsh configuration files."
