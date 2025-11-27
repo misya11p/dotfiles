@@ -7,13 +7,14 @@ brew install dua-cli
 brew install fzf
 brew install fastfetch
 brew install zoxide
-brew install pure
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 brew install neovim
 brew install uv
 brew install volta
-VOLTA_HOME="$XDG_DATA_HOME"/volta volta install node
+volta install node
 brew install gh
+brew install rich
+brew install ripgrep
 
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
