@@ -14,7 +14,10 @@ cd-git() {
       --height 65% \
       --reverse \
       --no-sort \
-      --preview 'rich --max-width 45 $(ghq root)/github.com/{}/README.md'
+      --preview '
+        cols=${FZF_PREVIEW_COLUMNS:-80}
+        rich --max-width "$cols" $(ghq root)/github.com/{}/README.md
+      '
   )
 
   if [[ -n "$repo" ]]; then
