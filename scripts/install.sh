@@ -7,7 +7,6 @@ brew install dua-cli
 brew install fzf
 brew install fastfetch
 brew install zoxide
-bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 brew install neovim
 brew install uv
 brew install volta
