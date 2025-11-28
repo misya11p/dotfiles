@@ -14,6 +14,8 @@ volta install node
 brew install gh
 brew install rich
 brew install ripgrep
+brew install tlrc
+brew install duf
 
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
