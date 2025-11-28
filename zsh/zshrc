@@ -21,7 +21,6 @@ alias ls="eza -F --group-directories-first --icons -s=extension --color=always"
 alias l="ls"
 alias la="ls -a"
 alias ll="la -l --git --no-user --time-style=long-iso"
-alias llf="ls -al --no-user --no-permissions --no-time --no-filesize"
 alias cp="cp -r"
 alias cat="bat"
 alias rm="trash"
@@ -30,9 +29,9 @@ alias dui="dua interactive"
 
 ## shortcuts
 alias ..="cd ../"
-alias v="nvim"
-alias vz="v $ZDOTDIR/.zshrc"
-alias vze="v $ZDOTDIR/.zshenv"
+alias ...="cd ../../"
+alias ....="cd ../../../"
+alias .....="cd ../../../../"
 alias sz="source $ZDOTDIR/.zshrc"
 alias mdc='(){mkdir $1 && cd $1}'
 alias c="code ."
@@ -46,6 +45,9 @@ alias gs="git switch"
 alias ur="uv run"
 alias ui="uv pip install"
 alias ua="uv add"
+
+## others
+alias speedtest="speedtest-cli"
 
 ## my apps
 alias llm-webui="$GIT_ROOT/llm-webui/entrypoint.sh"
