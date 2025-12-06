@@ -16,10 +16,10 @@ brew install rich
 brew install ripgrep
 brew install tlrc
 brew install duf
+brew install bottom
 
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
-  brew install macmon
   brew install trash
   brew install font-0xproto-nerd-font
 

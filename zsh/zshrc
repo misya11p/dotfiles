@@ -26,6 +26,7 @@ alias cat="bat"
 alias rm="trash"
 alias du="dua"
 alias dui="dua interactive"
+alias btm="btm --theme default-light"
 
 ## shortcuts
 alias ..="cd ../"
