@@ -16,7 +16,7 @@ brew install rich
 brew install ripgrep
 brew install tlrc
 brew install duf
-brew install bottom
+brew install btop
 
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
