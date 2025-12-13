@@ -1,5 +1,5 @@
 #!/bin/bash
 
-PROJECT_ROOT="$DOTFILES_ROOT/applications/src/tonotion"
+PROJECT_ROOT="$DOTFILES_ROOT/src/tonotion"
 export NODE_PATH="$PROJECT_ROOT/node_modules"
 exec node $PROJECT_ROOT/index.js "$@"
