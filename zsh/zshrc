@@ -38,11 +38,9 @@ alias c="code ."
 alias o="open ."
 
 ## git
-alias gl="ghq list"
 alias gs="git switch"
 
 ## uv
-alias ur="uv run"
 alias ui="uv pip install"
 alias ua="uv add"
 
@@ -50,7 +48,7 @@ alias ua="uv add"
 alias speedtest="speedtest-cli"
 
 ## my apps
-alias llm-webui="$GIT_ROOT/llm-webui/entrypoint.sh"
+alias llm-webui="$HOME/workspace/llm-webui/entrypoint.sh"
 
 # import modules
 for file in "$DOTFILES_ROOT"/modules/*; do
