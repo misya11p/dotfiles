@@ -316,13 +316,9 @@ flatdir_safe_mv() {
   flatdir_run_cmd mv -- "$src" "$dst"
 }
 
-flatdir_safe_rm_rf() {
+flatdir_safe_rm() {
   # args: path
   local p="$1"
   [[ -e "$p" ]] || flatdir_die "not found: $p"
-
-  if ! flatdir_confirm "rm -rf '$p'?"; then
-    flatdir_die "cancelled"
-  fi
-  flatdir_run_cmd rm -rf -- "$p"
+  flatdir_run_cmd trash "$p"
 }

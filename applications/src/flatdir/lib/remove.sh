@@ -14,5 +14,5 @@ flatdir_remove() {
   [[ -n "$target" ]] || flatdir_die "no selection"
   [[ -d "$target" ]] || flatdir_die "not a directory: $target"
 
-  flatdir_safe_rm_rf "$target"
+  flatdir_safe_rm "$target"
 }
