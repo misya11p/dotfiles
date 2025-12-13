@@ -134,6 +134,67 @@ flatdir_dirs_array() {
   done
 }
 
+flatdir_managed_roots_count() {
+  local n=0
+  local d
+  while IFS= read -r d; do
+    [[ -n "$d" ]] || continue
+    n=$((n + 1))
+  done < <(flatdir_dirs_array)
+  echo "$n"
+}
+
+flatdir_display_path_for_dir() {
+  # Convert an absolute directory path (under managed roots) to a display path for fzf.
+  # Rule:
+  #   - if managed roots == 1: display is root-relative (depth1 => basename)
+  #   - if managed roots >= 2: display is HOME-relative
+  local abs="$1"
+  [[ -n "$abs" ]] || flatdir_die "empty path"
+
+  local n root rel
+  n="$(flatdir_managed_roots_count)"
+
+  if [[ "$n" -eq 1 ]]; then
+    IFS= read -r root < <(flatdir_dirs_array) || flatdir_die "no managed roots"
+    case "$abs" in
+      "$root"/*) rel="${abs#${root}/}" ;;
+      "$root") rel="." ;;
+      *) flatdir_die "path is not under managed root: $abs" ;;
+    esac
+    echo "$rel"
+    return 0
+  fi
+
+  # 2+ roots
+  echo "$(flatdir_relpath_from_home "$abs")"
+}
+
+flatdir_abs_path_from_display() {
+  # Convert a display path selected in fzf back to an absolute path.
+  # Rule:
+  #   - if managed roots == 1: display is root-relative
+  #   - if managed roots >= 2: display is HOME-relative
+  local disp="$1"
+  [[ -n "$disp" ]] || flatdir_die "empty display path"
+
+  local n root
+  n="$(flatdir_managed_roots_count)"
+
+  if [[ "$n" -eq 1 ]]; then
+    IFS= read -r root < <(flatdir_dirs_array) || flatdir_die "no managed roots"
+    if [[ "$disp" == "." ]]; then
+      echo "$root"
+    else
+      echo "${root%/}/${disp}"
+    fi
+    return 0
+  fi
+
+  # 2+ roots
+  echo "$(flatdir_abs_from_home_rel "$disp")"
+}
+
 flatdir_is_dir_registered() {
   local target="$1"
   local d
