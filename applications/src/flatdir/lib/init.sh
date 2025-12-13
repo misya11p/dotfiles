@@ -27,16 +27,27 @@ flatdir_init() {
     flatdir_require_cmd gh
     flatdir_require_cmd git
 
-    # create repo on GitHub and clone into dest
-    # NOTE: gh repo create accepts --clone and --add-readme etc. We'll keep it minimal.
-    # We create repo with the given name (in current user namespace) and clone.
-    # To control clone destination, we use --clone then move, or use git clone afterwards.
+    # 1) Create an empty repo on GitHub
+    flatdir_run_cmd gh repo create "$name" --private
 
-    # create without prompting
-    flatdir_run_cmd gh repo create "$name" --private --confirm
+    # 2) Clone into the selected managed root
+    # Avoid relying on login/owner by asking gh for the repo sshUrl.
+    local ssh_url
+    ssh_url="$(gh repo view "$name" --json sshUrl -q .sshUrl)" || flatdir_die "failed: gh repo view"
+    [[ -n "$ssh_url" ]] || flatdir_die "failed: could not determine repo sshUrl"
 
-    # clone into chosen managed root
-    flatdir_run_cmd git clone "git@github.com:$(gh api user -q .login)/${name}.git" "$dest"
+    flatdir_run_cmd git clone "$ssh_url" "$dest"
+
+    # 3) Create an empty README.md and make the initial commit on main
+    (
+      cd -- "$dest" || flatdir_die "failed to cd: $dest"
+      flatdir_run_cmd git checkout -B main
+      : > README.md
+      flatdir_run_cmd git add README.md
+      flatdir_run_cmd git commit -m "Initial commit"
+      flatdir_run_cmd git push -u origin main
+    )
+
     echo "initialized (git): $dest" >&2
   else
     flatdir_run_cmd mkdir -p -- "$dest"
