@@ -40,10 +40,10 @@ flatdir_usage() {
 flatdir - manage multiple directories in a single flat view
 
 Usage:
+  flatdir
   flatdir track <path>
   flatdir untrack
   flatdir list
-  flatdir                 # fzf select (prints selected path)
   flatdir remove
   flatdir archive
   flatdir restore
