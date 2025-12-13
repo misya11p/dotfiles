@@ -103,6 +103,38 @@
   confirm() { read -r -p "$1 [y/N] " ans; [[ "$ans" == "y" ]]; }
   ```
 
+## 引き継ぎメモ（次のエージェント向け）
+
+このREADMEは仕様書ですが、会話の中で以下の変更・修正が入りました（実装も反映済み）。
+
+### 直近の実装変更点
+
+- `add` サブコマンドは **`track` にリネーム**済み。
+  - 追加実装: `lib/track.sh`
+  - entrypoint: `entrypoint.sh` の `track)` 分岐
+- 監視対象rootを解除する **`untrack`** を新規追加済み。
+  - `flatdir untrack`（引数なし）で fzf から管理対象rootを選び、config から削除
+  - 実装: `lib/untrack.sh` / entrypoint: `untrack)`
+
+### fzf/previewまわりの重要ポイント
+
+- `flatdir`（サブコマンド無し）は **cdはしない**。選択したディレクトリの **フルパスをstdoutに出すだけ**（cdはwrapper側）。
+- fzfの一覧表示は **フルパスではなく相対パス**表示に変更済み。
+  - managed roots が1つ: root からの相対（=深さ1なので実質ディレクトリ名）
+  - managed roots が2つ以上: HOME からの相対
+  - 変換関数を `lib/common.sh` に追加:
+    - `flatdir_display_path_for_dir <abs>`
+    - `flatdir_abs_path_from_display <disp>`
+- previewは README があれば `rich` を使用し、幅は `FZF_PREVIEW_COLUMNS` を参照（サンプル `samples/cd-git.sh` 準拠）。
+  - preview実体: `flatdir_preview_exec_for_path`（`lib/common.sh`）
+- fzfのpreviewに bash -lc を使う場合、引数の渡し方で `$1` が空になりやすいので注意。
+  - 現状は `bash -lc '... "$1" ...' _ {2}` 形式で安定化済み。
+
+### 既知の設計メモ
+
+- `run_cmd` を alias で提供していたが、非対話shellでは alias が効かず `command not found` になる事があったため、各所は基本 `flatdir_run_cmd` を使用する方針。
+- `init` は managed roots が1つの時は root選択を省略するよう `flatdir_pick_managed_root` を調整済み。
+
 ## エージェントへの要求
 
 * ファイル分割を必ず守る
