@@ -1,0 +1,268 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Common helpers for flatdir
+
+# Resolve library/root directories (used by other modules when sourcing dependencies)
+FLATDIR_LIB_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+FLATDIR_ROOT_DIR="$(cd -- "${FLATDIR_LIB_DIR}/.." && pwd)"
+
+flatdir_die() {
+  echo "$1" >&2
+  exit 1
+}
+
+# Backward compatible alias with README
+# shellcheck disable=SC2139
+alias die=flatdir_die
+
+flatdir_run_cmd() {
+  command "$@" || flatdir_die "failed: $*"
+}
+
+# Backward compatible alias with README
+# shellcheck disable=SC2139
+alias run_cmd=flatdir_run_cmd
+
+flatdir_confirm() {
+  local prompt ans
+  prompt="$1"
+  read -r -p "${prompt} [y/N] " ans
+  [[ "$ans" == "y" ]]
+}
+
+# Backward compatible alias with README
+# shellcheck disable=SC2139
+alias confirm=flatdir_confirm
+
+flatdir_usage() {
+  cat <<'EOF'
+flatdir - manage multiple directories in a single flat view
+
+Usage:
+  flatdir add <path>
+  flatdir list
+  flatdir                 # fzf select (prints selected path)
+  flatdir remove
+  flatdir archive
+  flatdir restore
+  flatdir init <name> [--git]
+  flatdir clone <git-url>
+EOF
+}
+
+flatdir_require_cmd() {
+  local c
+  c="$1"
+  command -v "$c" >/dev/null 2>&1 || flatdir_die "required command not found: $c"
+}
+
+flatdir_config_path() {
+  echo "${HOME}/.config/flatdir/config"
+}
+
+flatdir_archive_root() {
+  # fixed as per user answer
+  echo "${HOME}/.local/share/flatdir/archive"
+}
+
+flatdir_relpath_from_home() {
+  # args: absolute path under $HOME
+  local abs="$1"
+  local home
+  home="${HOME%/}"
+
+  case "$abs" in
+    "$home"/*) echo "${abs#${home}/}" ;;
+    *) flatdir_die "path is not under HOME: $abs" ;;
+  esac
+}
+
+flatdir_abs_from_home_rel() {
+  # args: relative path
+  local rel="$1"
+  [[ -n "$rel" ]] || flatdir_die "empty relpath"
+  echo "${HOME%/}/${rel}"
+}
+
+flatdir_ensure_user_config_exists() {
+  local cfg_dir cfg
+  cfg="$(flatdir_config_path)"
+  cfg_dir="$(dirname -- "$cfg")"
+
+  if [[ ! -d "$cfg_dir" ]]; then
+    flatdir_run_cmd mkdir -p "$cfg_dir"
+  fi
+  if [[ ! -f "$cfg" ]]; then
+    cat >"$cfg" <<'EOF'
+# flatdir user config
+# DIRS is colon-separated list of absolute paths
+# example: DIRS="$HOME/src:$HOME/work"
+DIRS=""
+EOF
+  fi
+}
+
+flatdir_load_config() {
+  flatdir_ensure_user_config_exists
+  # shellcheck disable=SC1090
+  source "$(flatdir_config_path)"
+
+  : "${DIRS:=}"
+}
+
+flatdir_dirs_array() {
+  # prints dirs one per line
+  flatdir_load_config
+
+  # Avoid bash array edge-cases with `set -u` by using string splitting.
+  # DIRS format: "/a:/b:/c"
+  local rest item
+  rest="${DIRS}"
+
+  while [[ -n "$rest" ]]; do
+    if [[ "$rest" == *:* ]]; then
+      item="${rest%%:*}"
+      rest="${rest#*:}"
+    else
+      item="$rest"
+      rest=""
+    fi
+
+    [[ -n "$item" ]] || continue
+    echo "$item"
+  done
+}
+
+flatdir_is_dir_registered() {
+  local target="$1"
+  local d
+  while IFS= read -r d; do
+    if [[ "$d" == "$target" ]]; then
+      return 0
+    fi
+  done < <(flatdir_dirs_array)
+  return 1
+}
+
+flatdir_save_dirs_array() {
+  # args: list of dirs (already validated), writes DIRS="a:b:c" to config
+  local cfg tmp joined
+  cfg="$(flatdir_config_path)"
+  tmp="${cfg}.tmp.$$"
+
+  joined=""
+  local d
+  for d in "$@"; do
+    [[ -n "$d" ]] || continue
+    if [[ -z "$joined" ]]; then
+      joined="$d"
+    else
+      joined="${joined}:$d"
+    fi
+  done
+
+  {
+    echo "# flatdir user config"
+    echo "# DIRS is colon-separated list of absolute paths"
+    echo "DIRS=\"${joined}\""
+  } >"$tmp"
+
+  flatdir_run_cmd mv "$tmp" "$cfg"
+}
+
+flatdir_pick_managed_root() {
+  # select one of managed roots via fzf; prints selection
+  flatdir_require_cmd fzf
+
+  local selection
+  selection="$({ flatdir_dirs_array || true; } | fzf --prompt='managed root> ' --height=40% --reverse)" || true
+
+  [[ -n "$selection" ]] || flatdir_die "no selection"
+  echo "$selection"
+}
+
+flatdir_list_depth1_dirs() {
+  # args: managed_root
+  local root="$1"
+  [[ -d "$root" ]] || flatdir_die "not a directory: $root"
+
+  # exclude hidden directories
+  # portable-ish: use find with -maxdepth/-mindepth
+  find "$root" -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print
+}
+
+flatdir_zoxide_score() {
+  # args: path
+  local p="$1"
+  flatdir_require_cmd zoxide
+
+  # zoxide query -ls outputs: "score path" (all entries)
+  # find exact match; if not found, score=0
+  local score
+  score="$(zoxide query -ls 2>/dev/null | awk -v target="$p" '$2==target{print $1; exit}')" || true
+  [[ -n "$score" ]] || score="0"
+  echo "$score"
+}
+
+flatdir_sort_by_zoxide() {
+  # reads newline-separated paths from stdin, outputs paths sorted desc by zoxide score
+  local p
+  while IFS= read -r p; do
+    [[ -n "$p" ]] || continue
+    printf '%s\t%s\n' "$(flatdir_zoxide_score "$p")" "$p"
+  done | sort -rn | cut -f2-
+}
+
+flatdir_preview_cmd_for_path() {
+  # prints a shell snippet to preview a directory
+  local p="$1"
+  local readme
+  readme=""
+
+  if [[ -f "${p}/README.md" ]]; then
+    readme="${p}/README.md"
+  elif [[ -f "${p}/README" ]]; then
+    readme="${p}/README"
+  fi
+
+  if [[ -n "$readme" ]]; then
+    if command -v rich >/dev/null 2>&1; then
+      printf 'rich -p -- "%s"' "$readme"
+    else
+      printf 'sed -n "1,200p" -- "%s"' "$readme"
+    fi
+  else
+    if command -v eza >/dev/null 2>&1; then
+      printf 'eza -l --color=always --icons -- "%s"' "$p"
+    else
+      printf 'ls -la -- "%s"' "$p"
+    fi
+  fi
+}
+
+flatdir_safe_mv() {
+  # args: src dst
+  local src="$1" dst="$2"
+
+  [[ -e "$src" ]] || flatdir_die "mv src not found: $src"
+  if [[ -e "$dst" ]]; then
+    flatdir_die "destination exists: $dst"
+  fi
+
+  if ! flatdir_confirm "mv '$src' -> '$dst'?"; then
+    flatdir_die "cancelled"
+  fi
+  flatdir_run_cmd mv -- "$src" "$dst"
+}
+
+flatdir_safe_rm_rf() {
+  # args: path
+  local p="$1"
+  [[ -e "$p" ]] || flatdir_die "not found: $p"
+
+  if ! flatdir_confirm "rm -rf '$p'?"; then
+    flatdir_die "cancelled"
+  fi
+  flatdir_run_cmd rm -rf -- "$p"
+}
