@@ -59,7 +59,7 @@ flatdir_require_cmd() {
 }
 
 flatdir_config_path() {
-  echo "${FLATDIR_ROOT_DIR}/config
+  echo "${FLATDIR_ROOT_DIR}/config"
 }
 
 flatdir_archive_root() {

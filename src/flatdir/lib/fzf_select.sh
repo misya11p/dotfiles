@@ -17,7 +17,7 @@ flatdir_fzf_select() {
   done < <(flatdir_dirs_array)
 
   if [[ ${#paths[@]} -eq 0 ]]; then
-    flatdir_die "no directories found (did you run: flatdir add <path> ?)"
+    flatdir_die "no directories found (did you run: flatdir track <path> ?)"
   fi
 
   # sort by zoxide score (keep full path for scoring)
