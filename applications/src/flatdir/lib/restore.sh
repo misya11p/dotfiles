@@ -40,7 +40,7 @@ flatdir_restore() {
     flatdir_die "restore destination exists: $dest"
   fi
 
-  run_cmd mkdir -p -- "$(dirname -- "$dest")"
+  flatdir_run_cmd mkdir -p -- "$(dirname -- "$dest")"
 
   flatdir_safe_mv "$selection" "$dest"
   echo "restored: $dest" >&2

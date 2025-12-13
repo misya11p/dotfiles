@@ -33,13 +33,13 @@ flatdir_init() {
     # To control clone destination, we use --clone then move, or use git clone afterwards.
 
     # create without prompting
-    run_cmd gh repo create "$name" --private --confirm
+    flatdir_run_cmd gh repo create "$name" --private --confirm
 
     # clone into chosen managed root
-    run_cmd git clone "git@github.com:$(gh api user -q .login)/${name}.git" "$dest"
+    flatdir_run_cmd git clone "git@github.com:$(gh api user -q .login)/${name}.git" "$dest"
     echo "initialized (git): $dest" >&2
   else
-    run_cmd mkdir -p -- "$dest"
+    flatdir_run_cmd mkdir -p -- "$dest"
     echo "initialized: $dest" >&2
   fi
 }

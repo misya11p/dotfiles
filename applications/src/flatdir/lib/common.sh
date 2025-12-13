@@ -172,11 +172,32 @@ flatdir_save_dirs_array() {
 }
 
 flatdir_pick_managed_root() {
-  # select one of managed roots via fzf; prints selection
+  # select one of managed roots; prints selection
+  # behavior:
+  #   - 0 roots: error
+  #   - 1 root : return it (no fzf)
+  #   - 2+    : select via fzf
+
+  local -a roots=()
+  local d
+  while IFS= read -r d; do
+    [[ -n "$d" ]] || continue
+    roots+=("$d")
+  done < <(flatdir_dirs_array)
+
+  if [[ ${#roots[@]} -eq 0 ]]; then
+    flatdir_die "no managed roots (did you run: flatdir add <path> ?)"
+  fi
+
+  if [[ ${#roots[@]} -eq 1 ]]; then
+    echo "${roots[0]}"
+    return 0
+  fi
+
   flatdir_require_cmd fzf
 
   local selection
-  selection="$({ flatdir_dirs_array || true; } | fzf --prompt='managed root> ' --height=40% --reverse)" || true
+  selection="$(printf '%s\n' "${roots[@]}" | fzf --prompt='managed root> ' --height=40% --reverse)" || true
 
   [[ -n "$selection" ]] || flatdir_die "no selection"
   echo "$selection"

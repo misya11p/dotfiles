@@ -29,8 +29,9 @@ flatdir_fzf_select() {
   local selection
   selection="$(
     printf '%s\n' "$sorted" |
-      fzf --prompt='dir> ' --height=60% --reverse \
-        --preview-window='right,60%,border-left' \
+      fzf \
+        --height=40% \
+        --reverse \
         --preview="bash -lc 'source \"$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/common.sh\"; flatdir_preview_exec_for_path \"\$1\"' _ {}"
   )" || true
 

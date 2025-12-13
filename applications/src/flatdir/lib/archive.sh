@@ -12,7 +12,7 @@ flatdir_archive() {
   local target archive_root rel dest
 
   archive_root="$(flatdir_archive_root)"
-  run_cmd mkdir -p -- "$archive_root"
+  flatdir_run_cmd mkdir -p -- "$archive_root"
 
   target="$(flatdir_fzf_select)"
   [[ -n "$target" ]] || flatdir_die "no selection"
@@ -26,12 +26,12 @@ flatdir_archive() {
     flatdir_die "archive destination exists: $dest"
   fi
 
-  run_cmd mkdir -p -- "$(dirname -- "$dest")"
+  flatdir_run_cmd mkdir -p -- "$(dirname -- "$dest")"
 
   flatdir_safe_mv "$target" "$dest"
 
   # marker for restore (used to list archived dirs)
-  run_cmd touch -- "$dest/.flatdir_archived"
+  flatdir_run_cmd touch -- "$dest/.flatdir_archived"
 
   # cleanup candidates (do not delete by default; always confirm)
   local -a candidates=(
