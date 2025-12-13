@@ -24,17 +24,20 @@ flatdir_fzf_select() {
   local sorted
   sorted="$(printf '%s\n' "${paths[@]}" | flatdir_sort_by_zoxide)"
 
-  local preview
-  preview=''
   # use dynamic preview command using bash -lc (fzf executes via sh by default)
+  # Avoid eval/quoting issues by calling an exec-style function with a positional arg.
   local selection
   selection="$(
     printf '%s\n' "$sorted" |
       fzf --prompt='dir> ' --height=60% --reverse \
         --preview-window='right,60%,border-left' \
-        --preview='bash -lc "source \"'"$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/common.sh"'\"; flatdir_preview_cmd_for_path \"{}\""'
+        --preview="bash -lc 'source \"$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/common.sh\"; flatdir_preview_exec_for_path \"\$1\"' _ {}"
   )" || true
 
-  [[ -n "$selection" ]] || flatdir_die "no selection"
+  # align with wrapper usage: on cancel, print nothing and return success.
+  if [[ -z "$selection" ]]; then
+    return 0
+  fi
+
   echo "$selection"
 }

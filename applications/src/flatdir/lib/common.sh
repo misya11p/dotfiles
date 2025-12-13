@@ -215,10 +215,34 @@ flatdir_sort_by_zoxide() {
 }
 
 flatdir_preview_cmd_for_path() {
-  # prints a shell snippet to preview a directory
+  # prints a shell snippet to preview a directory.
+  # NOTE: fzf --preview expects a command to *execute*.
+  # This function returns such a command string and must be executed by caller (e.g. via `eval`).
   local p="$1"
-  local readme
-  readme=""
+  local readme=""
+
+  if [[ -f "${p}/README.md" ]]; then
+    readme="${p}/README.md"
+  elif [[ -f "${p}/README" ]]; then
+    readme="${p}/README"
+  fi
+
+  if [[ -n "$readme" ]]; then
+    # As requested: for now, use cat instead of rich-based conditional behavior.
+    printf 'cat -- "%s" | sed -n "1,200p"' "$readme"
+  else
+    if command -v eza >/dev/null 2>&1; then
+      printf 'eza -lTF --icons --group-directories-first --no-user --no-permissions --no-filesize --time-style=long-iso --color=always -s=extension -L=1 -- "%s"' "$p"
+    else
+      printf 'ls -la -- "%s"' "$p"
+    fi
+  fi
+}
+
+flatdir_preview_exec_for_path() {
+  # exec preview for fzf. Avoids eval/quoting issues by executing directly.
+  local p="$1"
+  local readme=""
 
   if [[ -f "${p}/README.md" ]]; then
     readme="${p}/README.md"
@@ -228,16 +252,31 @@ flatdir_preview_cmd_for_path() {
 
   if [[ -n "$readme" ]]; then
     if command -v rich >/dev/null 2>&1; then
-      printf 'rich -p -- "%s"' "$readme"
+      # Follow samples/cd-git.sh: respect FZF_PREVIEW_COLUMNS for width.
+      local cols
+      cols="${FZF_PREVIEW_COLUMNS:-80}"
+      rich --max-width "$cols" -- "$readme"
     else
-      printf 'sed -n "1,200p" -- "%s"' "$readme"
+      # Fallback when rich is not available.
+      sed -n '1,200p' -- "$readme"
     fi
+    return 0
+  fi
+
+  if command -v eza >/dev/null 2>&1; then
+    eza -lTF \
+      --icons \
+      --group-directories-first \
+      --no-user \
+      --no-permissions \
+      --no-filesize \
+      --time-style=long-iso \
+      --color=always \
+      -s=extension \
+      -L=1 \
+      -- "$p"
   else
-    if command -v eza >/dev/null 2>&1; then
-      printf 'eza -l --color=always --icons -- "%s"' "$p"
-    else
-      printf 'ls -la -- "%s"' "$p"
-    fi
+    ls -la -- "$p"
   fi
 }
 
