@@ -4,37 +4,63 @@ set -euo pipefail
 flatdir_restore() {
   flatdir_require_cmd fzf
 
-  local archive_root selection rel dest
+  local archive_root
   archive_root="$(flatdir_archive_root)"
 
   [[ -d "$archive_root" ]] || flatdir_die "archive directory not found: $archive_root"
 
-  # list directories that have marker
-  selection="$({
-    find "$archive_root" -type f -name '.flatdir_archived' -print 2>/dev/null | sed 's#/.flatdir_archived$##'
-  } | fzf --prompt='archive> ' --height=60% --reverse)" || true
+  # Use an absolute path string for bash -lc preview (avoid nested quoting issues)
+  local common_sh
+  common_sh="${FLATDIR_LIB_DIR}/common.sh"
 
-  [[ -n "$selection" ]] || flatdir_die "no selection"
-  [[ -d "$selection" ]] || flatdir_die "not a directory: $selection"
+  # Build fzf rows: "display\tarchive_dir\tdest"
+  # - display: relative path for UI (rule depends on number of managed roots)
+  # - archive_dir: actual directory under archive_root (full path)
+  # - dest: restore destination (full path)
+  local -a rows=()
+  local marker
+  while IFS= read -r marker; do
+    [[ -n "$marker" ]] || continue
 
-  # compute relpath from archive_root without relying on sed escaping
-  local selection_abs archive_abs
-  if command -v realpath >/dev/null 2>&1; then
-    selection_abs="$(realpath -- "$selection")"
-    archive_abs="$(realpath -- "$(flatdir_archive_root)")"
-  else
-    selection_abs="$(cd -- "$selection" && pwd -P)"
-    archive_abs="$(cd -- "$(flatdir_archive_root)" && pwd -P)"
+    local archive_dir rel dest display
+    archive_dir="${marker%/.flatdir_archived}"
+    [[ -d "$archive_dir" ]] || continue
+
+    case "$archive_dir" in
+      "$archive_root"/*) rel="${archive_dir#${archive_root}/}" ;;
+      *) continue ;;
+    esac
+
+    dest="$(flatdir_abs_from_home_rel "$rel")"
+    display="$(flatdir_display_path_for_dir "$dest")"
+
+    rows+=("${display}"$'\t'"${archive_dir}"$'\t'"${dest}")
+  done < <(find "$archive_root" -type f -name '.flatdir_archived' -print 2>/dev/null || true)
+
+  if [[ ${#rows[@]} -eq 0 ]]; then
+    flatdir_die "no archived directories found"
   fi
 
-  case "$selection_abs" in
-    "$archive_abs"/*) rel="${selection_abs#${archive_abs}/}" ;;
-    *) flatdir_die "internal error: selection not under archive_root" ;;
-  esac
+  local selection_line
+  selection_line="$(
+    printf '%s\n' "${rows[@]}" |
+      fzf \
+        --prompt='archive> ' \
+        --height=60% \
+        --reverse \
+        --delimiter=$'\t' \
+        --with-nth=1 \
+        --preview="bash -lc 'source \"$common_sh\"; flatdir_preview_exec_for_path \"\$1\"' _ {2}"
+  )" || true
 
-  [[ -n "$rel" ]] || flatdir_die "failed to compute relative path for: $selection"
+  [[ -n "$selection_line" ]] || flatdir_die "no selection"
 
-  dest="$(flatdir_abs_from_home_rel "$rel")"
+  local display archive_dir dest
+  IFS=$'\t' read -r display archive_dir dest <<<"$selection_line"
+
+  [[ -n "$archive_dir" ]] || flatdir_die "internal error: empty selection"
+  [[ -d "$archive_dir" ]] || flatdir_die "not a directory: $archive_dir"
+  [[ -n "$dest" ]] || flatdir_die "internal error: empty dest"
 
   if [[ -e "$dest" ]]; then
     flatdir_die "restore destination exists: $dest"
@@ -42,6 +68,6 @@ flatdir_restore() {
 
   flatdir_run_cmd mkdir -p -- "$(dirname -- "$dest")"
 
-  flatdir_safe_mv "$selection" "$dest"
+  flatdir_safe_mv "$archive_dir" "$dest"
   echo "restored: $dest" >&2
 }
