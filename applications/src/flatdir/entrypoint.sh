@@ -17,11 +17,17 @@ case "$cmd" in
     source "${SCRIPT_DIR}/lib/fzf_select.sh"
     flatdir_fzf_select
     ;;
-  add)
+  track)
     shift
-    # shellcheck source=lib/add.sh
-    source "${SCRIPT_DIR}/lib/add.sh"
-    flatdir_add "$@"
+    # shellcheck source=lib/track.sh
+    source "${SCRIPT_DIR}/lib/track.sh"
+    flatdir_track "$@"
+    ;;
+  untrack)
+    shift
+    # shellcheck source=lib/untrack.sh
+    source "${SCRIPT_DIR}/lib/untrack.sh"
+    flatdir_untrack "$@"
     ;;
   list)
     shift

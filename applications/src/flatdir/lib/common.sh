@@ -40,7 +40,8 @@ flatdir_usage() {
 flatdir - manage multiple directories in a single flat view
 
 Usage:
-  flatdir add <path>
+  flatdir track <path>
+  flatdir untrack
   flatdir list
   flatdir                 # fzf select (prints selected path)
   flatdir remove
@@ -247,7 +248,7 @@ flatdir_pick_managed_root() {
   done < <(flatdir_dirs_array)
 
   if [[ ${#roots[@]} -eq 0 ]]; then
-    flatdir_die "no managed roots (did you run: flatdir add <path> ?)"
+    flatdir_die "no managed roots (did you run: flatdir track <path> ?)"
   fi
 
   if [[ ${#roots[@]} -eq 1 ]]; then

@@ -43,10 +43,13 @@
 
 ## コマンド仕様
 
-### flatdir add <path>
+### flatdir track <path>
 * 管理対象ディレクトリを config に追加
 * path がディレクトリじゃない場合や存在していない場合はエラー
 * 既に登録済みならその旨表示して終了
+
+### flatdir untrack
+* fzf で管理対象ディレクトリ（監視対象root）を選び、config から削除
 
 ### flatdir list
 * 管理対象ディレクトリ一覧を表示
