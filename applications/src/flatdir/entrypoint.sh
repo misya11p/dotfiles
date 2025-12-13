@@ -71,4 +71,4 @@ case "$cmd" in
   *)
     die "unknown subcommand: ${cmd} (use --help)"
     ;;
- esac
+esac
