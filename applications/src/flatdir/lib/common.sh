@@ -310,9 +310,6 @@ flatdir_safe_mv() {
     flatdir_die "destination exists: $dst"
   fi
 
-  if ! flatdir_confirm "mv '$src' -> '$dst'?"; then
-    flatdir_die "cancelled"
-  fi
   flatdir_run_cmd mv -- "$src" "$dst"
 }
 

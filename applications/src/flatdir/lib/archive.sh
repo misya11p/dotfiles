@@ -35,10 +35,11 @@ flatdir_archive() {
 
   # cleanup candidates (do not delete by default; always confirm)
   local -a candidates=(
+    ".DS_Store"
     ".venv"
     "node_modules"
     "__pycache__"
-    "etc"
+    ".ipynb_checkpoints"
   )
 
   local c p
@@ -46,7 +47,7 @@ flatdir_archive() {
     p="${dest}/${c}"
     if [[ -e "$p" ]]; then
       if flatdir_confirm "delete '$p'?"; then
-        flatdir_run_cmd rm -rf -- "$p"
+        flatdir_safe_rm "$p"
       fi
     fi
   done
