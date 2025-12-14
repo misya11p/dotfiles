@@ -11,20 +11,13 @@ touch "$HOME/.zshrc"
 touch "$HOME/.config/zsh/.zshenv"
 touch "$HOME/.config/zsh/.zshrc"
 
-cp $HOME/.zshenv $DIR_BACKUP/.zshenv.bak
-cp $HOME/.zshrc $DIR_BACKUP/.zshrc.bak
-cp $HOME/.config/zsh/.zshenv $DIR_BACKUP/.zshenv_config.bak
-cp $HOME/.config/zsh/.zshrc $DIR_BACKUP/.zshrc_config.bak
+mv $HOME/.zshenv $DIR_BACKUP/.zshenv.bak
+mv $HOME/.zshrc $DIR_BACKUP/.zshrc.bak
+mv $HOME/.config/zsh/.zshenv $DIR_BACKUP/.zshenv_config.bak
+mv $HOME/.config/zsh/.zshrc $DIR_BACKUP/.zshrc_config.bak
 
-cat $HOME/.zshenv >> $HOME/.config/zsh/.zshenv
-cat $HOME/.zshrc >> $HOME/.config/zsh/.zshrc
-
-echo "source $DOTFILES_ROOT/zsh/zshenv" >> $HOME/.config/zsh/.zshenv
-echo "source $DOTFILES_ROOT/zsh/zshrc" >> $HOME/.config/zsh/.zshrc
-
-rm $HOME/.zshenv
-rm $HOME/.zshrc
-
+echo "source $DOTFILES_ROOT/zsh/zshenv" > $HOME/.config/zsh/.zshenv
+echo "source $DOTFILES_ROOT/zsh/zshrc" > $HOME/.config/zsh/.zshrc
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee -a /etc/zshenv > /dev/null
 
 echo "Completed setting up zsh configuration files."
