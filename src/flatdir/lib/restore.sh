@@ -45,7 +45,6 @@ flatdir_restore() {
   selection_line="$(
     printf '%s\n' "${rows[@]}" |
       fzf \
-        --prompt='archive> ' \
         --height=60% \
         --reverse \
         --delimiter=$'\t' \
