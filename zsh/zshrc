@@ -32,7 +32,6 @@ alias ..="cd ../"
 alias ...="cd ../../"
 alias ....="cd ../../../"
 alias .....="cd ../../../../"
-alias sz="source $ZDOTDIR/.zshrc"
 alias mdc='(){mkdir $1 && cd $1}'
 alias c="code ."
 alias o="open ."

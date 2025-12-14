@@ -27,19 +27,13 @@ Linuxの場合は[こちら](https://docs.brew.sh/Homebrew-on-Linux)を参照
 
 ### dotfilesのクローン
 
-次のコマンドを実行
+次のコマンドを実行し、任意の場所にリポジトリをクローン
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/misya11p/dotfiles/main/scripts/clone.sh | bash
+git clone https://github.com/misya11p/dotfiles
 ```
 
 ## install & setup
-
-本リポジトリに移動
-
-```sh
-cd $HOME/.repo/github.com/misya11p/dotfiles
-```
 
 次のコマンドを実行。環境変数などの設定を行う。
 

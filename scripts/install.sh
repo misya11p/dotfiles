@@ -10,7 +10,6 @@ brew install zoxide
 brew install neovim
 brew install uv
 brew install volta
-volta install node
 brew install gh
 brew install rich
 brew install ripgrep
