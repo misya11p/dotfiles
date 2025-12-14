@@ -39,7 +39,7 @@ flatdir_fzf_select() {
   selection_line="$(
     printf '%s\n' "$rows" |
       fzf \
-        --height=40% \
+        --height=60% \
         --reverse \
         --delimiter=$'\t' \
         --with-nth=1 \
