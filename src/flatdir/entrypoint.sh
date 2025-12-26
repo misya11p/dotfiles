@@ -11,6 +11,12 @@ source "${SCRIPT_DIR}/lib/common.sh"
 cmd="${1:-}" || true
 
 case "$cmd" in
+  -a)
+    shift
+    # shellcheck source=lib/archive.sh
+    source "${SCRIPT_DIR}/lib/archive.sh"
+    flatdir_archive_select "$@"
+    ;;
   "")
     # no subcommand: interactive select (prints selected path)
     # shellcheck source=lib/fzf_select.sh

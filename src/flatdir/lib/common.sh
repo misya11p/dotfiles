@@ -41,6 +41,7 @@ flatdir - manage multiple directories in a single flat view
 
 Usage:
   flatdir
+  flatdir -a
   flatdir track <path>
   flatdir untrack
   flatdir list

@@ -54,3 +54,60 @@ flatdir_archive() {
 
   echo "archived: $dest" >&2
 }
+
+flatdir_archive_select() {
+  flatdir_require_cmd fzf
+
+  local archive_root
+  archive_root="$(flatdir_archive_root)"
+
+  [[ -d "$archive_root" ]] || flatdir_die "archive directory not found: $archive_root"
+
+  # Use an absolute path string for bash -lc preview (avoid nested quoting issues)
+  local common_sh
+  common_sh="${FLATDIR_LIB_DIR}/common.sh"
+
+  # Build fzf rows: "display\tarchive_dir"
+  # - display: relative path for UI (HOME-relative)
+  # - archive_dir: actual directory under archive_root (full path)
+  local -a rows=()
+  local marker
+  while IFS= read -r marker; do
+    [[ -n "$marker" ]] || continue
+
+    local archive_dir rel display
+    archive_dir="${marker%/.flatdir_archived}"
+    [[ -d "$archive_dir" ]] || continue
+
+    case "$archive_dir" in
+      "$archive_root"/*) rel="${archive_dir#${archive_root}/}" ;;
+      *) continue ;;
+    esac
+
+    display="$rel"
+    rows+=("${display}"$'\t'"${archive_dir}")
+  done < <(find "$archive_root" -type f -name '.flatdir_archived' -print 2>/dev/null || true)
+
+  if [[ ${#rows[@]} -eq 0 ]]; then
+    flatdir_die "no archived directories found"
+  fi
+
+  local selection_line
+  selection_line="$(
+    printf '%s\n' "${rows[@]}" |
+      fzf \
+        --height=60% \
+        --reverse \
+        --delimiter=$'\t' \
+        --with-nth=1 \
+        --preview="bash -lc 'source \"$common_sh\"; flatdir_preview_exec_for_path \"\$1\"' _ {2}"
+  )" || true
+
+  # align with fzf_select usage: on cancel, print nothing and return success.
+  if [[ -z "$selection_line" ]]; then
+    return 0
+  fi
+
+  # stdout must be full path (2nd field)
+  printf '%s\n' "$selection_line" | cut -f2-
+}
