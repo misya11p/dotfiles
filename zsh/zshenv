@@ -37,3 +37,6 @@ export MPLCONFIGDIR="$XDG_CONFIG_HOME/matplotlib"
 
 ## python
 export PYTHONSTARTUP="$HOME"/python/pythonrc
+
+## rust
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
