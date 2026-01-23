@@ -35,6 +35,10 @@ alias .....="cd ../../../../"
 alias mdc='(){mkdir $1 && cd $1}'
 alias c="code ."
 alias o="open ."
+alias free="cd $HOME/workspace/free && code ."
+
+## my apps
+alias llmweb="$HOME/workspace/llm-webui/entrypoint.sh"
 
 ## git
 alias gs="git switch"
@@ -42,12 +46,6 @@ alias gs="git switch"
 ## uv
 alias ui="uv pip install"
 alias ua="uv add"
-
-## others
-alias speedtest="speedtest-cli"
-
-## my apps
-alias llmweb="$HOME/workspace/llm-webui/entrypoint.sh"
 
 # import modules
 for file in "$DOTFILES_ROOT"/modules/*; do
