@@ -47,7 +47,7 @@ alias ua="uv add"
 alias speedtest="speedtest-cli"
 
 ## my apps
-alias llm-webui="$HOME/workspace/llm-webui/entrypoint.sh"
+alias llmweb="$HOME/workspace/llm-webui/entrypoint.sh"
 
 # import modules
 for file in "$DOTFILES_ROOT"/modules/*; do
