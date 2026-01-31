@@ -68,5 +68,6 @@ flatdir_restore() {
   flatdir_run_cmd mkdir -p -- "$(dirname -- "$dest")"
 
   flatdir_safe_mv "$archive_dir" "$dest"
+  flatdir_run_cmd rm -f -- "$dest/.flatdir_archived"
   echo "restored: $dest" >&2
 }
