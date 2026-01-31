@@ -27,11 +27,7 @@ flatdir_archive() {
   fi
 
   flatdir_run_cmd mkdir -p -- "$(dirname -- "$dest")"
-
   flatdir_safe_mv "$target" "$dest"
-
-  # marker for restore (used to list archived dirs)
-  flatdir_run_cmd touch -- "$dest/.flatdir_archived"
 
   # cleanup candidates (do not delete by default; always confirm)
   local -a candidates=(
