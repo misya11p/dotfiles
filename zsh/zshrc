@@ -35,7 +35,7 @@ alias .....="cd ../../../../"
 alias mdc='(){mkdir $1 && cd $1}'
 alias c="code ."
 alias o="open ."
-alias free="cd $HOME/workspace/free && code ."
+alias free="cd $HOME/workspace/free"
 
 ## my apps
 alias llmweb="$HOME/workspace/llm-webui/entrypoint.sh"
