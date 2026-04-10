@@ -14,6 +14,28 @@ setopt HIST_IGNORE_DUPS
 setopt inc_append_history
 setopt share_history
 
+# prompt settings
+autoload -U promptinit; promptinit # pure prompt
+prompt pure
+
+# zsh settings
+autoload -Uz compinit && compinit
+zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 小文字でも大文字にマッチさせる
+zstyle ':completion:*' expand 'yes' # 環境変数を展開
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+setopt AUTO_CD # パスを直接入力してもcdする
+setopt AUTO_PARAM_KEYS # 環境変数を補完
+
+## zinit settings
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+zinit light zsh-users/zsh-syntax-highlighting # シンタックスハイライト
+zinit light zsh-users/zsh-autosuggestions # 入力補完
+
 # alias
 ## replace commands
 alias cd="z"
