@@ -7,6 +7,11 @@ export GIT_ROOT=$(dirname $DOTFILES_ROOT)
 eval "$(zoxide init zsh)" # zoxide
 eval "$(atuin init zsh --disable-up-arrow)" # atuin
 
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+  source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration" # Ghostty
+fi
+
+
 # history settings
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 HISTSIZE=100000
