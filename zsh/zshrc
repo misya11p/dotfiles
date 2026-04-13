@@ -5,7 +5,7 @@ export GIT_ROOT=$(dirname $DOTFILES_ROOT)
 
 # Application settings
 eval "$(zoxide init zsh)" # zoxide
-eval "$(atuin init zsh)" # atuin
+eval "$(atuin init zsh --disable-up-arrow)" # atuin
 
 # history settings
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
