@@ -29,6 +29,7 @@ zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 setopt AUTO_CD # パスを直接入力してもcdする
 setopt AUTO_PARAM_KEYS # 環境変数を補完
+ZSH_AUTOSUGGEST_STRATEGY=(history completion) # 補完候補の拡張
 
 ## zinit settings
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
