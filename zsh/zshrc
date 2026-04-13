@@ -13,6 +13,7 @@ SAVEHIST=1000000
 setopt HIST_IGNORE_DUPS
 setopt inc_append_history
 setopt share_history
+setopt EXTENDED_HISTORY
 
 # prompt settings
 autoload -U promptinit; promptinit # pure prompt
