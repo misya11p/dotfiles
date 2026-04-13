@@ -59,6 +59,14 @@ alias c="code ."
 alias o="open ."
 alias free="cd $HOME/workspace/free"
 
+v() {
+  if [ "$#" -eq 0 ]; then
+    nvim .
+  else
+    nvim "$@"
+  fi
+}
+
 ## my apps
 alias llmweb="$HOME/workspace/llm-webui/entrypoint.sh"
 
