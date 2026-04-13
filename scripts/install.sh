@@ -16,6 +16,7 @@ brew install ripgrep
 brew install tlrc
 brew install duf
 brew install btop
+brew install atuin
 
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -26,5 +27,3 @@ if [[ "$(uname)" == "Darwin" ]]; then
 elif [[ "$(uname)" == "Linux" ]]; then
   brew install trash-cli
 fi
-
-

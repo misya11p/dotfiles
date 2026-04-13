@@ -5,6 +5,7 @@ export GIT_ROOT=$(dirname $DOTFILES_ROOT)
 
 # Application settings
 eval "$(zoxide init zsh)" # zoxide
+eval "$(atuin init zsh)" # atuin
 
 # history settings
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
