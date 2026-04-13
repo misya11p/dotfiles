@@ -11,4 +11,4 @@ flatdir() {
     fi
 }
 
-alias fd=flatdir
+alias f=flatdir
