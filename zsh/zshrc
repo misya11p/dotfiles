@@ -21,6 +21,8 @@ autoload -U promptinit; promptinit # pure prompt
 prompt pure
 PURE_PROMPT_SYMBOL='🐤'
 
+RPROMPT='%F{blue}%D{%Y-%m-%d %H:%M:%S}%f'
+
 # zsh settings
 autoload -Uz compinit && compinit
 zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
