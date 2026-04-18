@@ -49,7 +49,7 @@ Usage:
   flatdir archive
   flatdir restore
   flatdir init <name> [--git]
-  flatdir clone <git-url>
+  flatdir clone [-s] [<git-url | owner/repo | repo>]
 EOF
 }
 
@@ -361,6 +361,16 @@ flatdir_preview_exec_for_path() {
       -- "$p"
   else
     ls -la -- "$p"
+  fi
+}
+
+flatdir_clone_preview() {
+  local repo="$1"
+  local cols="${FZF_PREVIEW_COLUMNS:-80}"
+  if command -v rich >/dev/null 2>&1; then
+    gh repo view "$repo" | rich --markdown --max-width "$cols" -
+  else
+    gh repo view "$repo"
   fi
 }
 
