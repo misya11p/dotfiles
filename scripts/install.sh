@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
   brew install bat
