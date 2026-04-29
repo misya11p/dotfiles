@@ -9,7 +9,7 @@ brew install fastfetch
 brew install zoxide
 brew install neovim
 brew install uv
-brew install volta
+brew install mise
 brew install gh
 brew install rich
 brew install ripgrep

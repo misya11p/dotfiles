@@ -17,9 +17,6 @@ export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 ## rbenv
 export RBENV_ROOT="$XDG_DATA_HOME"/rbenv
 
-## volta
-export VOLTA_HOME="$XDG_DATA_HOME"/volta
-
 ## wget
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 
