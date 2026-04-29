@@ -27,14 +27,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
 ## Linux
 elif [[ "$(uname)" == "Linux" ]]; then
   sudo apt update
-  sudo apt install -y curl bat exa fzf ripgrep fastfetch trash-cli gh duf lazygit
+  sudo apt install -y gcc curl eza fzf ripgrep fastfetch trash-cli gh duf lazygit
 
   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh # zoxide
   curl -LsSf https://astral.sh/uv/install.sh | sh # uv
   curl https://sh.rustup.rs -sSf | sh # rust
   curl https://mise.run | sh # mise
 
-  cargo install atuin delta dua-cli btop
+  cargo install atuin bat git-delta dua-cli btop
 
   # neovim
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz

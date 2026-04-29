@@ -21,11 +21,6 @@ setopt inc_append_history
 setopt share_history
 setopt EXTENDED_HISTORY
 
-# prompt settings
-autoload -U promptinit; promptinit # pure prompt
-prompt pure
-PURE_PROMPT_SYMBOL='🐤'
-
 # zsh settings
 autoload -Uz compinit && compinit
 zstyle ':completion:*:default' menu select=1 # Tabや矢印で選択できるようにする
@@ -44,6 +39,11 @@ autoload -Uz _zinit
 
 zinit light zsh-users/zsh-syntax-highlighting # シンタックスハイライト
 zinit light zsh-users/zsh-autosuggestions # 入力補完
+
+# pure prompt
+zinit ice pick"async.zsh" src"pure.zsh"
+zinit light sindresorhus/pure
+PURE_PROMPT_SYMBOL='🐤'
 
 # alias
 ## replace commands
