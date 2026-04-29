@@ -48,6 +48,10 @@ elif [[ "$(uname)" == "Linux" ]]; then
 fi
 
 ## common
+
+### neovim
 git clone https://github.com/LazyVim/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git
 
+### zinit
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+rm ~/.zshrc
