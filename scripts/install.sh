@@ -13,10 +13,15 @@ brew install mise
 brew install gh
 brew install rich
 brew install ripgrep
-brew install tlrc
 brew install duf
+brew install delta
 brew install btop
 brew install atuin
+brew install lazygit
+
+git clone https://github.com/LazyVim/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git
+
+bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 
 ## macOS
 if [[ "$(uname)" == "Darwin" ]]; then
