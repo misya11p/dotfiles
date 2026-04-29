@@ -15,15 +15,13 @@ sudo apt install zsh
 chsh -s $(which zsh)
 ```
 
-### [Homebrew](https://brew.sh)のインストール
+### [Homebrew](https://brew.sh)のインストール（macOS）
 
 次のコマンドを実行し、指示に従ってパスを通す
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-
-Linuxの場合は[こちら](https://docs.brew.sh/Homebrew-on-Linux)を参照
 
 ### dotfilesのクローン
 
