@@ -38,7 +38,7 @@ git clone https://github.com/misya11p/dotfiles
 次のコマンドを実行。環境変数などの設定を行う。
 
 ```sh
-sh scripts/setup.sh
+sh scripts/init.sh
 source $HOME/.config/zsh/.zshenv
 ```
 
