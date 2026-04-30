@@ -19,7 +19,7 @@
 
 ```sh
 sudo apt update
-sudo apt install zsh git
+sudo apt install -y zsh git
 chsh -s $(which zsh)
 zsh
 ```
@@ -35,5 +35,5 @@ git clone https://github.com/misya11p/dotfiles ~/.dotfiles
 次のコマンドを実行。zshファイルの設定とパッケージのインストール。
 
 ```sh
-. ~/.dotfiles/scripts/setup.sh
+~/.dotfiles/scripts/setup.sh
 ```

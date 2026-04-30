@@ -90,7 +90,7 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 
 ## finish
 ZDOTDIR="$HOME/.config/zsh"
-rm $ZDOTDIR/.zshrc
-rm $ZDOTDIR/.zshenv
-. $DOTFILES_ROOT/scripts/link.sh
+[ -f "$ZDOTDIR/.zshrc" ] && rm "$ZDOTDIR/.zshrc"
+[ -f "$ZDOTDIR/.zshenv" ] && rm "$ZDOTDIR/.zshenv"
+$DOTFILES_ROOT/scripts/link.sh
 echo "Completed installing tools and applications. Please restart your terminal to apply the changes."
