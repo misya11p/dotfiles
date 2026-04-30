@@ -13,6 +13,7 @@
 sudo apt update
 sudo apt install zsh
 chsh -s $(which zsh)
+zsh
 ```
 
 ### [Homebrew](https://brew.sh)のインストール（macOS）
