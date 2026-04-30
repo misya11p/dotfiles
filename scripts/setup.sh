@@ -10,18 +10,11 @@ DIR_BACKUP="$DOTFILES_ROOT/backup/$(date +'%Y%m%d%H%M%S')"
 mkdir -p $DIR_BACKUP
 
 [ ! -d "$HOME/.config/zsh" ] && mkdir -p "$HOME/.config/zsh"
-touch "$HOME/.zshenv"
-touch "$HOME/.zshrc"
-touch "$HOME/.config/zsh/.zshenv"
-touch "$HOME/.config/zsh/.zshrc"
 
-mv $HOME/.zshenv $DIR_BACKUP/.zshenv.bak
-mv $HOME/.zshrc $DIR_BACKUP/.zshrc.bak
-mv $HOME/.config/zsh/.zshenv $DIR_BACKUP/.zshenv_config.bak
-mv $HOME/.config/zsh/.zshrc $DIR_BACKUP/.zshrc_config.bak
-
-echo "source $DOTFILES_ROOT/zsh/zshenv" > $HOME/.config/zsh/.zshenv
-echo "source $DOTFILES_ROOT/zsh/zshrc" > $HOME/.config/zsh/.zshrc
+[ -f "$HOME/.zshenv" ] && mv "$HOME/.zshenv" "$DIR_BACKUP/.zshenv.bak"
+[ -f "$HOME/.zshrc" ] && mv "$HOME/.zshrc" "$DIR_BACKUP/.zshrc.bak"
+[ -f "$HOME/.config/zsh/.zshenv" ] && mv "$HOME/.config/zsh/.zshenv" "$DIR_BACKUP/.zshenv_config.bak"
+[ -f "$HOME/.config/zsh/.zshrc" ] && mv "$HOME/.config/zsh/.zshrc" "$DIR_BACKUP/.zshrc_config.bak"
 
 ZDOTDIR_CONFIG='export ZDOTDIR="$HOME"/.config/zsh'
 if [ -f /etc/zshenv ]; then
@@ -32,7 +25,7 @@ else
     echo "Notice: /etc/zshenv or /etc/zsh/zshenv not found. Please set ZDOTDIR manually if needed."
 fi
 
-source $HOME/.config/zsh/.zshenv
+source $DOTFILES_ROOT/zsh/zshenv
 echo "Completed setting up zsh configuration files."
 
 # ======================================================================
@@ -97,4 +90,5 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 rm $HOME/.zshrc
 
 ## finish
+$DOTFILES_ROOT/scripts/link.sh
 echo "Completed installing tools and applications."
