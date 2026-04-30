@@ -1,5 +1,4 @@
 # Environment variables
-export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH" # uv
 export GIT_ROOT=$(dirname $DOTFILES_ROOT)
 
@@ -7,7 +6,7 @@ export GIT_ROOT=$(dirname $DOTFILES_ROOT)
 eval "$(zoxide init zsh)" # zoxide
 eval "$(atuin init zsh --disable-up-arrow)" # atuin
 eval "$(mise activate zsh)" # mise
-. "/Users/k/.local/share/cargo/env" # rust
+. "$HOME/.local/share/cargo/env" # rust
 
 
 if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
