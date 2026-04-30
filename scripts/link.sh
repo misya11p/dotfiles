@@ -14,10 +14,11 @@ link_files() {
 
     while IFS= read -r -d '' src; do
         local rel="${src#$src_dir/}"
-        local dest="$dest_dir/$(basename "$rel")"
 
         if [[ "$dot_prefix" == true ]]; then
-            dest="$dest_dir/.$(basename "$rel")"
+            local dest="$dest_dir/.$(basename "$rel")"
+        else
+            local dest="$dest_dir/$rel"
         fi
 
         if [[ -e "$dest" || -L "$dest" ]]; then
