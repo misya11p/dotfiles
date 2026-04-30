@@ -98,4 +98,3 @@ rm $HOME/.zshrc
 
 ## finish
 echo "Completed installing tools and applications."
-source $HOME/.config/zsh/.zshrc
