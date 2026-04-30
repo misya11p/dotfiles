@@ -35,5 +35,5 @@ git clone https://github.com/misya11p/dotfiles ~/.dotfiles
 次のコマンドを実行。zshファイルの設定とパッケージのインストール。
 
 ```sh
-./scripts/setup.sh
+~/.dotfiles/scripts/setup.sh
 ```
