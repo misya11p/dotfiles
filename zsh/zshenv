@@ -1,4 +1,4 @@
-export DOTFILES_ROOT="${${0:A:h}:h}"
+export DOTFILES_ROOT="${${(%):-%N}:A:h:h}"
 
 # XDG Base Directory
 export XDG_CONFIG_HOME="$HOME/.config"
