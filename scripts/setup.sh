@@ -95,3 +95,7 @@ git clone https://github.com/LazyVim/starter $HOME/.config/nvim && rm -rf $HOME/
 ### zinit
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 rm $HOME/.zshrc
+
+## finish
+echo "Completed installing tools and applications."
+source $HOME/.config/zsh/.zshrc

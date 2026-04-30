@@ -23,26 +23,16 @@ chsh -s $(which zsh)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-### dotfilesのクローン
+## Setup
 
-次のコマンドを実行し、任意の場所にリポジトリをクローン
+リポジトリをクローン
 
 ```sh
-git clone https://github.com/misya11p/dotfiles
+git clone https://github.com/misya11p/dotfiles ~/.dotfiles
 ```
 
-## install & setup
-
-次のコマンドを実行。環境変数などの設定を行う。
+次のコマンドを実行。zshファイルの設定とパッケージのインストール。
 
 ```sh
-./scripts/init.sh
-source $HOME/.config/zsh/.zshenv
-```
-
-次のコマンドを実行。パッケージインストール。
-
-```sh
-./scripts/install.sh
-source $HOME/.config/zsh/.zshrc
+./scripts/setup.sh
 ```
