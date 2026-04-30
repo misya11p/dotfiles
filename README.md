@@ -4,24 +4,24 @@
 
 ## 準備
 
-### zshのインストール
 
-- macOSの場合はデフォルトで入っているので不要
-- Linuxの場合は以下のコマンドでインストール
-
-```sh
-sudo apt update
-sudo apt install zsh
-chsh -s $(which zsh)
-zsh
-```
-
-### [Homebrew](https://brew.sh)のインストール（macOS）
+### [Homebrew](https://brew.sh)のインストール (macOS)
 
 次のコマンドを実行し、指示に従ってパスを通す
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### zsh&gitのインストール (Linux)
+
+次のコマンドを実行
+
+```sh
+sudo apt update
+sudo apt install zsh git
+chsh -s $(which zsh)
+zsh
 ```
 
 ## Setup
