@@ -63,10 +63,11 @@ if [[ "$(uname)" == "Darwin" ]]; then
 
   curl https://sh.rustup.rs -sSf | sh # rust
 
-## Linux
+## Linux (Ubuntu/Debian)
 elif [[ "$(uname)" == "Linux" ]]; then
   sudo apt update
-  sudo apt install -y gcc curl eza fzf ripgrep fastfetch trash-cli gh duf lazygit
+  sudo apt install -y gcc curl wget file unzip
+  sudo apt install -y eza fzf ripgrep fastfetch trash-cli gh duf lazygit
 
   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh # zoxide
   curl -LsSf https://astral.sh/uv/install.sh | sh # uv
@@ -79,7 +80,7 @@ elif [[ "$(uname)" == "Linux" ]]; then
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
   sudo rm -rf /opt/nvim-linux-x86_64
   sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-  sudo ln -s /opt/nvim-linux64/bin/nvim $HOME/.local/bin/nvim
+  sudo ln -s /opt/nvim-linux-x86_64/bin/nvim $HOME/.local/bin/nvim
   rm nvim-linux-x86_64.tar.gz
 
   # rich-cli
