@@ -10,10 +10,15 @@ export DOTFILES_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
 link_files() {
     local src_dir="$1"
     local dest_dir="$2"
+    local dot_prefix="${3:-false}"
 
     while IFS= read -r -d '' src; do
         local rel="${src#$src_dir/}"
-        local dest="$dest_dir/$rel"
+        local dest="$dest_dir/$(basename "$rel")"
+
+        if [[ "$dot_prefix" == true ]]; then
+            dest="$dest_dir/.$(basename "$rel")"
+        fi
 
         if [[ -e "$dest" || -L "$dest" ]]; then
             echo "skip: $dest (already exists)"
@@ -27,4 +32,4 @@ link_files() {
 }
 
 link_files "$DOTFILES_ROOT/config" "$XDG_CONFIG_HOME"
-link_files "$DOTFILES_ROOT/zsh" "$ZDOTDIR"
+link_files "$DOTFILES_ROOT/zsh" "$ZDOTDIR" true
