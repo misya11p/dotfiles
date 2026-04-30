@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export DOTFILES_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
+DOTFILES_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
 
 : "${XDG_CONFIG_HOME:?XDG_CONFIG_HOME is not set. Source zshenv first.}"
 : "${ZDOTDIR:?ZDOTDIR is not set. Source zshenv first.}"
