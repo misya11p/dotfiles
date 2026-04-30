@@ -44,7 +44,7 @@ elif [[ "$(uname)" == "Linux" ]]; then
   rm nvim-linux-x86_64.tar.gz
 
   # rich-cli
-  uv tool install rich-cli
+  ~/.local/bin/uv tool install rich-cli
 fi
 
 ## common
