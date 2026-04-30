@@ -1,4 +1,4 @@
-export DOTFILES_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+export DOTFILES_ROOT="${${0:A:h}:h}"
 
 # XDG Base Directory
 export XDG_CONFIG_HOME="$HOME/.config"
