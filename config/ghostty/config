@@ -1,0 +1,29 @@
+# theme
+theme = Terminal Basic
+
+# font
+font-family = "0xProto Nerd Font Mono"
+font-size = 15
+
+# terminal app
+macos-icon = glass
+confirm-close-surface = false
+
+# inherit path
+window-inherit-working-directory = false
+tab-inherit-working-directory = true
+split-inherit-working-directory = true
+
+# cursor
+adjust-cursor-thickness = 2
+
+# alpha
+background-opacity = 0.85
+background-blur = true
+
+# Window
+window-padding-balance = true
+confirm-close-surface = false
+window-inherit-working-directory = true
+window-padding-x = 20
+window-padding-y = 12

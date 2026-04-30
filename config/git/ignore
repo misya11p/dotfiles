@@ -1,0 +1,11 @@
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+node_modules/
+
+.DS_Store
+.env
+
+# custom
+.trash/
+.ignore/

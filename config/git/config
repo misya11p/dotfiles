@@ -1,0 +1,18 @@
+[user]
+name = misya11p
+email = 90894519+misya11p@users.noreply.github.com
+
+[core]
+  editor = nvim
+
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+
+[delta]
+  navigate = true
+
+[interactive]
+  diffFilter = delta --color-only
