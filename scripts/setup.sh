@@ -54,7 +54,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   brew install trash
   brew install font-0xproto-nerd-font
 
-  curl https://sh.rustup.rs -sSf | sh # rust
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 ## Linux (Ubuntu/Debian)
 elif [[ "$(uname)" == "Linux" ]]; then
@@ -63,9 +63,9 @@ elif [[ "$(uname)" == "Linux" ]]; then
   sudo apt install -y eza fzf ripgrep fastfetch trash-cli gh duf lazygit
 
   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh # zoxide
-  curl -LsSf https://astral.sh/uv/install.sh | sh # uv
-  curl https://sh.rustup.rs -sSf | sh # rust
-  curl https://mise.run | sh # mise
+  curl -sSfL https://astral.sh/uv/install.sh | sh # uv
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y # rust
+  curl -sSf https://mise.run | sh # mise
 
   $HOME/.local/share/cargo/bin/cargo install atuin bat git-delta dua-cli btop
 
