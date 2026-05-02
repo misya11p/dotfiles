@@ -67,7 +67,10 @@ elif [[ "$(uname)" == "Linux" ]]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y # rust
   curl -sSf https://mise.run | sh # mise
 
-  $HOME/.local/share/cargo/bin/cargo install atuin bat git-delta dua-cli btop
+  # cargo install
+  mkdir -p $HOME/.cargo-tmp $HOME/.cargo-target
+  TMPDIR="$HOME/.cargo-tmp" CARGO_TARGET_DIR="$HOME/.cargo-target" $HOME/.local/share/cargo/bin/cargo install atuin bat git-delta dua-cli btop
+  rm -rf $HOME/.cargo-tmp $HOME/.cargo-target
 
   # neovim
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
