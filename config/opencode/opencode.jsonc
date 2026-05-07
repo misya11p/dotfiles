@@ -64,6 +64,11 @@
       "type": "remote",
       "url": "https://mcp.exa.ai/mcp?exaApiKey=2f073293-1321-491a-9c60-54801a803510",
       "enabled": true
+    },
+    "pdf-reader-mcp": {
+      "type": "local",
+      "command": ["npx", "-y", "@shuji-bonji/pdf-reader-mcp"],
+      "enabled": true
     }
   },
 
