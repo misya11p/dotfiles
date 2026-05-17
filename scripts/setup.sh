@@ -18,11 +18,11 @@ mkdir -p $DIR_BACKUP
 
 ZDOTDIR_CONFIG='export ZDOTDIR="$HOME"/.config/zsh'
 if [ -f /etc/zshenv ]; then
-    echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zshenv > /dev/null
+  echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zshenv >/dev/null
 elif [ -f /etc/zsh/zshenv ]; then
-    echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zsh/zshenv > /dev/null
+  echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zsh/zshenv >/dev/null
 else
-    echo "Notice: /etc/zshenv or /etc/zsh/zshenv not found. Please set ZDOTDIR manually if needed."
+  echo "Notice: /etc/zshenv or /etc/zsh/zshenv not found. Please set ZDOTDIR manually if needed."
 fi
 
 source $DOTFILES_ROOT/zsh/zshenv
@@ -63,11 +63,13 @@ elif [[ "$(uname)" == "Linux" ]]; then
   sudo apt install -y eza fzf ripgrep fastfetch trash-cli gh duf lazygit
 
   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh # zoxide
-  curl -LsSf https://astral.sh/uv/install.sh | sh # uv
-  curl https://sh.rustup.rs -sSf | sh # rust
-  curl https://mise.run | sh # mise
+  curl -LsSf https://astral.sh/uv/install.sh | sh                                      # uv
+  curl https://sh.rustup.rs -sSf | sh                                                  # rust
+  curl https://mise.run | sh                                                           # mise
 
-  $HOME/.local/share/cargo/bin/cargo install atuin bat git-delta dua-cli btop
+  mkdir -p $HOME/.cargo-tmp $HOME/.cargo-target
+  TMPDIR="$HOME/.cargo-tmp" CARGO_TARGET_DIR="$HOME/.cargo-target" $HOME/.local/share/cargo/bin/cargo install atuin bat git-delta dua-cli btop
+  rm -rf $HOME/.cargo-tmp $HOME/.cargo-target
 
   # neovim
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
@@ -94,3 +96,4 @@ ZDOTDIR="$HOME/.config/zsh"
 [ -f "$ZDOTDIR/.zshenv" ] && rm "$ZDOTDIR/.zshenv"
 source $DOTFILES_ROOT/scripts/link.sh
 echo "Completed installing tools and applications. Please restart your terminal to apply the changes."
+
