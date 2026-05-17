@@ -33,7 +33,7 @@ current command: ${input}"
   replacement="$(
     {
       printf '%s\n\n%s' "$system_prompt" "$user_prompt"
-    } | gum spin --title "Generating..." -s points --show-output -- \
+    } | gum spin --itle "Generating..." -s points --show-output -- \
       sh -c "llm -m \"$model\" --no-stream -x | ruby -0777 -pe '\$_.strip!; gsub(/\n+/, \" && \")'"
   )"
 
@@ -42,3 +42,4 @@ current command: ${input}"
 }
 zle -N _natural_command_widget
 bindkey '^g' _natural_command_widget
+
