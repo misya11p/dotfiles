@@ -18,11 +18,11 @@ mkdir -p $DIR_BACKUP
 
 ZDOTDIR_CONFIG='export ZDOTDIR="$HOME"/.config/zsh'
 if [ -f /etc/zshenv ]; then
-    echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zshenv > /dev/null
+  echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zshenv >/dev/null
 elif [ -f /etc/zsh/zshenv ]; then
-    echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zsh/zshenv > /dev/null
+  echo "$ZDOTDIR_CONFIG" | sudo tee -a /etc/zsh/zshenv >/dev/null
 else
-    echo "Notice: /etc/zshenv or /etc/zsh/zshenv not found. Please set ZDOTDIR manually if needed."
+  echo "Notice: /etc/zshenv or /etc/zsh/zshenv not found. Please set ZDOTDIR manually if needed."
 fi
 
 source $DOTFILES_ROOT/zsh/zshenv
@@ -97,3 +97,4 @@ ZDOTDIR="$HOME/.config/zsh"
 [ -f "$ZDOTDIR/.zshenv" ] && rm "$ZDOTDIR/.zshenv"
 source $DOTFILES_ROOT/scripts/link.sh
 echo "Completed installing tools and applications. Please restart your terminal to apply the changes."
+
