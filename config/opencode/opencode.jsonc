@@ -11,7 +11,7 @@
       "*.env.example": "allow"
     },
     "edit": {
-      "*": "ask",
+      "*": "allow",
       "agents/**/*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
