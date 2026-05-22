@@ -51,6 +51,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   brew install btop
   brew install atuin
   brew install lazygit
+  brew install yazi
   brew install trash
   brew install font-0xproto-nerd-font
 
@@ -66,6 +67,11 @@ elif [[ "$(uname)" == "Linux" ]]; then
   curl -sSfL https://astral.sh/uv/install.sh | sh # uv
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y # rust
   curl -sSf https://mise.run | sh # mise
+
+  # yazi
+  curl -sS https://debian.griffo.io/EA0F721D231FDD3A0A17B9AC7808B4DD62C41256.asc | gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/debian.griffo.io.gpg
+  echo "deb https://debian.griffo.io/apt $(lsb_release -sc 2>/dev/null) main" | sudo tee /etc/apt/sources.list.d/debian.griffo.io.list
+  sudo apt install yazi
 
   # cargo install
   mkdir -p $HOME/.cargo-tmp $HOME/.cargo-target
@@ -97,4 +103,3 @@ ZDOTDIR="$HOME/.config/zsh"
 [ -f "$ZDOTDIR/.zshenv" ] && rm "$ZDOTDIR/.zshenv"
 source $DOTFILES_ROOT/scripts/link.sh
 echo "Completed installing tools and applications. Please restart your terminal to apply the changes."
-
