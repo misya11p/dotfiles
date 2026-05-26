@@ -83,8 +83,8 @@ for file in "$DOTFILES_ROOT"/modules/*; do
   [ -f "$file" ] && source "$file"
 done
 
-# Enable the custom application commands
-export PATH="$DOTFILES_ROOT/applications:$PATH"
+# Enable the custom bin directory
+export PATH="$DOTFILES_ROOT/bin:$PATH"
 
 ## others
 alias path='echo $PATH | tr : "\n"'
