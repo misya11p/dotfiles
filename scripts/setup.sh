@@ -25,7 +25,7 @@ else
   echo "Notice: /etc/zshenv or /etc/zsh/zshenv not found. Please set ZDOTDIR manually if needed."
 fi
 
-source $DOTFILES_ROOT/zsh/.zshenv
+source $DOTFILES_ROOT/home/.config/zsh/.zshenv
 echo "Completed setting up zsh configuration files."
 
 # ======================================================================
