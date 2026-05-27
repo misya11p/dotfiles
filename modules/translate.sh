@@ -9,9 +9,7 @@ Requirements:
 - Maintain the original document format (including Markdown structure, headings, lists, line breaks, code blocks, tables, etc.)
 - Do not translate elements that do not need translation (such as mathematical formulas or code)
 - Your output will be directly provided to the user. Do not output any text other than the translated text. Avoid including explanations, notes, or comments, and refrain from wrapping the output in code fences'
-  local tmp_file input_bytes answer exit_status
-
-  tmp_file="$(mktemp -t translate.XXXXXX)"
+  local input translation input_bytes answer exit_status
 
   if [ "$#" -gt 0 ]; then
     local file
@@ -24,23 +22,25 @@ Requirements:
     done
 
     if [ -z "$exit_status" ]; then
-      for file in "$@"; do
-        if [ "$file" = "-" ]; then
-          command cat
-        else
-          command cat -- "$file"
-        fi
-      done > "$tmp_file"
+      input="$(
+        for file in "$@"; do
+          if [ "$file" = "-" ]; then
+            command cat
+          else
+            command cat -- "$file"
+          fi
+        done
+      )"
     fi
   elif [ -t 0 ]; then
     printf 'usage: translate FILE...\n       command | translate\n       translate < FILE\n' >&2
     exit_status=2
   else
-    command cat > "$tmp_file"
+    input="$(command cat)"
   fi
 
   if [ -z "$exit_status" ]; then
-    input_bytes="$(wc -c < "$tmp_file" | tr -d ' ')"
+    input_bytes="$(printf '%s' "$input" | wc -c | tr -d ' ')"
     if [ "$input_bytes" -gt "$max_bytes" ]; then
       printf 'translate: input is %s bytes. continue? [y/N] ' \
         "$input_bytes" >/dev/tty
@@ -55,13 +55,18 @@ Requirements:
 
   if [ -z "$exit_status" ]; then
     export TRANSLATE_SYSTEM_PROMPT="$system_prompt"
-    gum spin --title "Translating..." -s points --show-output -- \
-      sh -c 'llm -s "$TRANSLATE_SYSTEM_PROMPT" < "$1"' sh "$tmp_file"
+    translation="$(
+      gum spin --title "Translating..." -s points --show-output -- \
+        llm prompt --no-stream -s "$TRANSLATE_SYSTEM_PROMPT" -- "$input"
+    )"
     exit_status="$?"
     unset TRANSLATE_SYSTEM_PROMPT
   fi
 
-  rm -f "$tmp_file"
+  if [ "$exit_status" -eq 0 ]; then
+    printf '%s\n' "$translation"
+  fi
+
   return "$exit_status"
 }
 
