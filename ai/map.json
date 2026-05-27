@@ -1,0 +1,10 @@
+{
+  "AGENTS.md": [
+    "~/.config/opencode/AGENTS.md",
+    "~/.codex/AGENTS.md"
+  ],
+  "SKILLS/": [
+    "~/.config/opencode/SKILLS/",
+    "~/.codex/SKILLS/"
+  ]
+}
