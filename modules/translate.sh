@@ -57,7 +57,8 @@ Requirements:
     export TRANSLATE_SYSTEM_PROMPT="$system_prompt"
     translation="$(
       gum spin --title "Translating..." -s points --show-output -- \
-        llm prompt --no-stream -s "$TRANSLATE_SYSTEM_PROMPT" -- "$input"
+        llm prompt --no-stream -o reasoning_effort low \
+        -s "$TRANSLATE_SYSTEM_PROMPT" -- "$input"
     )"
     exit_status="$?"
     unset TRANSLATE_SYSTEM_PROMPT
