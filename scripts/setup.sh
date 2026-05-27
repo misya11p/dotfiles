@@ -54,6 +54,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   brew install yazi
   brew install trash
   brew install just
+  brew install gum
   brew install font-0xproto-nerd-font
 
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
