@@ -57,7 +57,7 @@ Requirements:
     export TRANSLATE_SYSTEM_PROMPT="$system_prompt"
     translation="$(
       gum spin --title "Translating..." -s points --show-output -- \
-        llm prompt --no-stream -o reasoning_effort low \
+        llm prompt --no-stream -o reasoning_effort low -m openrouter/qwen/qwen3.6-flash \
         -s "$TRANSLATE_SYSTEM_PROMPT" -- "$input"
     )"
     exit_status="$?"
