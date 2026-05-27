@@ -3,8 +3,8 @@
     "~/.config/opencode/AGENTS.md",
     "~/.codex/AGENTS.md"
   ],
-  "SKILLS/": [
-    "~/.config/opencode/SKILLS/",
-    "~/.codex/SKILLS/"
+  "skills/": [
+    "~/.config/opencode/skills/",
+    "~/.codex/skills/"
   ]
 }
