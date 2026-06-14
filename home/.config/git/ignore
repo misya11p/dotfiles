@@ -2,6 +2,7 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 node_modules/
+wandb/
 
 .DS_Store
 .env
