@@ -11,3 +11,5 @@ wandb/
 .trash/
 .ignore/
 n.ipynb
+msync.json
+
